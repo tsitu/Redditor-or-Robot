@@ -1,4 +1,4 @@
-#commentContainer {
+#gameContainer {
     text-align: center;
     font-size: 2vw;
     margin: 1em auto;
@@ -11,7 +11,7 @@
     padding: 20px;
 }
 
-#goldButton, #coldButton {
+#humanButton, #roboButton {
     font-size: 36px;
     width: 10vw;
 }
