@@ -17,11 +17,12 @@ function getHot(sub) {
 function getUser(name) {
     // Returns Listing of 25 Comments, amount appends to that
     // All bots have been around 10 months so 100 comments on all is likely
-    return requester.getUser(name).getComments().fetchMore({amount: 50});
+    // return requester.getUser(name).getComments().fetchMore({amount: 50});
+    return requester.getUser(name).getComments();
 }
 
 function getRandom(max) {
-    return Math.floor(Math.random() * max); 
+    return Math.floor(Math.random() * max);
 }
 
 module.exports = {

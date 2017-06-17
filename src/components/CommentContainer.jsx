@@ -1,5 +1,7 @@
 import React from "react";
 
+import NavHeader from "./NavHeader.jsx";
+
 import { getHot, getUser, getRandom } from "../utils/api.js";
 import ssBotList from "../utils/ssbotlist.js";
 import SnuOwnd from "../utils/snuownd.js";
@@ -12,7 +14,9 @@ class CommentContainer extends React.Component {
         super(props);
         this.state = {
             text: '',
-            isLoading: true
+            isLoading: true,
+            subredditName: '',
+            userType: ''
         };
 
         this.reloadComments = this.reloadComments.bind(this);
@@ -22,14 +26,24 @@ class CommentContainer extends React.Component {
     }
 
     componentWillMount() {
-        // getHot('all').then(value => {
-        //     hotSubmissions = value;
-        //     console.log(hotSubmissions);
-        // }, reason => {
-        //     console.log(reason);
-        // });
+        this.reloadComments();
+    }
 
-        getUser('China_SS').then(value => {
+    reloadComments() {
+        const randomSS = ssBotList[getRandom(ssBotList.length)];
+        this.setState({
+            subredditName: randomSS.subreddit,
+            userType: ''
+        });
+
+        getHot(randomSS.subreddit).then(value => {
+            hotSubmissions = value;
+            console.log(hotSubmissions);
+        }, reason => {
+            console.log(reason);
+        });
+
+        getUser(randomSS.username).then(value => {
             ssComments = value;
             console.log(ssComments);
         }, reason => {
@@ -37,28 +51,51 @@ class CommentContainer extends React.Component {
         });
     }
 
-    reloadComments() {
-        //
-    }
-
     handleUpdate() {
-        if (!hotSubmissions) {
-            console.log("Null hotSubmissions, please refresh.");
-            return null;
+        if (!hotSubmissions || !ssComments) {
+            console.log("Null object[s], please refresh.");
+            return;
         }
-        const randomSubmission = hotSubmissions[getRandom(hotSubmissions.length - 1)];
-        const randomComment = randomSubmission.comments[getRandom(randomSubmission.comments.length - 1)];
-        if (randomSubmission.gilded > 0) {
-            console.log(randomSubmission.gilded + " gold on post: " + randomSubmission.id);
+
+        const roll = getRandom(2);
+
+        if (roll === 0) {
+            const randomSubmission = hotSubmissions[getRandom(hotSubmissions.length)];
+            const randomComment = randomSubmission.comments[getRandom(randomSubmission.comments.length)];
+
+            if (!randomComment) {
+                this.handleUpdate();
+                return;
+            }
+
+            if (randomSubmission.gilded > 0) {
+                console.log(randomSubmission.gilded + " gold on post: " + randomSubmission.id);
+            }
+
+            if (randomComment.gilded > 0) {
+                console.log(randomComment.gilded + " gold on comment: " + randomComment.id);
+            }
+
+            this.setState({
+                text: SnuOwnd.getParser().render(randomComment.body),
+                // text: value.comments[0].body,
+                isLoading: false,
+                userType: 'human'
+            });
         }
-        if (randomComment.gilded > 0) {
-            console.log(randomComment.gilded + " gold on comment: " + randomComment.id);
+        else if (roll === 1) {
+            const randomComment = ssComments[getRandom(ssComments.length)];
+
+            if (randomComment.gilded > 0) {
+                console.log(randomComment.gilded + " gold on comment: " + randomComment.id);
+            }
+
+            this.setState({
+                text: SnuOwnd.getParser().render(randomComment.body),
+                isLoading: false,
+                userType: 'robot'
+            });
         }
-        this.setState({
-            text: SnuOwnd.getParser().render(randomComment.body),
-            // text: value.comments[0].body,
-            isLoading: false
-        });
     }
 
     onGoldButtonClick() {
@@ -70,7 +107,11 @@ class CommentContainer extends React.Component {
     }
 
     onColdButtonClick() {
-        //componentWillMount();
+        this.setState({
+            text: '',
+            isLoading: true
+        });
+        this.reloadComments();
     }
 
     render() {
@@ -79,6 +120,7 @@ class CommentContainer extends React.Component {
         return (
             <div id="commentContainer">
                 {/*{this.state.text} <br /> <br />*/}
+                <NavHeader type={this.state.userType} subreddit={this.state.subredditName} />
                 <GoldButton onButtonClick={this.onGoldButtonClick} /> &nbsp;
                 <ColdButton onButtonClick={this.onColdButtonClick} /> <br /> <br />
                 {img}
@@ -108,7 +150,7 @@ class GoldButton extends React.Component {
 
     render() {
         return (
-            <button type="button" id="goldButton" onClick={this.handleClick}>🏆</button>
+            <button type="button" id="goldButton" onClick={this.handleClick}>🤓</button>
         );
     }
 }
@@ -126,7 +168,7 @@ class ColdButton extends React.Component {
 
     render() {
         return (
-            <button type="button" id="coldButton" onClick={this.handleClick}>❄️</button>
+            <button type="button" id="coldButton" onClick={this.handleClick}>🤖</button>
         );
     }
 }
