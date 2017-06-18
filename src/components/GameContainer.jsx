@@ -78,7 +78,7 @@ class GameContainer extends React.Component {
 
     handleUpdate() {
         if (!hotSubmissions || !ssComments) {
-            console.log("Null object[s], please refresh.");
+            console.log("Null object[s], please refresh");
             return;
         }
 
@@ -127,10 +127,16 @@ class GameContainer extends React.Component {
     }
 
     onGameButtonClick(type) {
+        if (!hotSubmissions || !ssComments) {
+            console.log("Null object[s], please refresh");
+            return;
+        }
+
         this.setState({
             text: '',
             isLoading: true
         });
+
         if (this.state.userType == type) {
             this.setState({
                 score: this.state.score + 1
@@ -160,7 +166,7 @@ class GameContainer extends React.Component {
                 <ButtonContainer
                     gameOver = {this.state.gameOver}
                     onResetButtonClick = {this.onResetButtonClick}
-                    onGameButtonClick = {this.onGameButtonClick} /> <br /> <br />
+                    onGameButtonClick = {this.onGameButtonClick} />
                 <CommentContainer
                     text = {this.state.text}
                     isLoading = {this.state.isLoading} />
@@ -225,7 +231,7 @@ class HumanButton extends React.Component {
 
     handleClick(e) {
         e.preventDefault();
-        this.props.onButtonClick();
+        this.props.onButtonClick('human');
     }
 
     render() {
@@ -243,7 +249,7 @@ class RoboButton extends React.Component {
 
     handleClick(e) {
         e.preventDefault();
-        this.props.onButtonClick();
+        this.props.onButtonClick('robot');
     }
 
     render() {
