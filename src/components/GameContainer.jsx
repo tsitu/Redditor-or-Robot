@@ -9,6 +9,7 @@ import SnuOwnd from "../utils/snuownd.js";
 
 let hotSubmissions = null;
 let ssComments = null;
+let lifeTracker = 3;
 
 class GameContainer extends React.Component {
     constructor(props) {
@@ -17,39 +18,62 @@ class GameContainer extends React.Component {
             text: '',
             isLoading: true,
             subredditName: '',
-            userType: ''
+            userType: '',
+            numLives: 3,
+            score: 0,
+            gameOver: false
         };
 
         this.reloadComments = this.reloadComments.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
-        this.onHumanButtonClick = this.onHumanButtonClick.bind(this);
-        this.onRoboButtonClick = this.onRoboButtonClick.bind(this);
+        this.onResetButtonClick = this.onResetButtonClick.bind(this);
+        this.onGameButtonClick = this.onGameButtonClick.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.reloadComments();
     }
 
+    componentDidUpdate() {
+        if (lifeTracker != this.state.numLives) {
+            lifeTracker = this.state.numLives;
+            this.reloadComments();
+        }
+    }
+
     reloadComments() {
+        if (this.state.numLives <= 0) {
+            this.setState({
+                gameOver: true
+            });
+            return;
+        }
+
         const randomSS = ssBotList[getRandom(ssBotList.length)];
         this.setState({
             subredditName: randomSS.subreddit,
             userType: ''
         });
 
-        getHot(randomSS.subreddit).then(value => {
+        const hotPromise = getHot(randomSS.subreddit).then(value => {
             hotSubmissions = value;
             console.log(hotSubmissions);
         }, reason => {
             console.log(reason);
         });
 
-        getUser(randomSS.username).then(value => {
+        const userPromise = getUser(randomSS.username).then(value => {
             ssComments = value;
             console.log(ssComments);
         }, reason => {
             console.log(reason);
         });
+
+        const apiCalls = [];
+        apiCalls.push(hotPromise);
+        apiCalls.push(userPromise);
+
+        Promise.all(apiCalls).then(() => this.handleUpdate());
     }
 
     handleUpdate() {
@@ -98,30 +122,97 @@ class GameContainer extends React.Component {
         }
     }
 
-    onHumanButtonClick() {
-        this.setState({
-            text: '',
-            isLoading: true
-        });
-        this.handleUpdate();
+    onResetButtonClick() {
+        this.props.onResetButtonClick();
     }
 
-    onRoboButtonClick() {
+    onGameButtonClick(type) {
         this.setState({
             text: '',
             isLoading: true
         });
-        this.reloadComments();
+        if (this.state.userType == type) {
+            this.setState({
+                score: this.state.score + 1
+            });
+            this.handleUpdate();
+        }
+        else if (this.state.userType != type) {
+            this.setState({
+                numLives: this.state.numLives - 1
+            });
+        }
+        else {
+            console.log("Shenanigans in GameButtonClick");
+            return;
+        }
+    }
+
+    render() {
+        const buttonCommentContainer = this.state.gameOver ?
+            <div>
+                <ButtonContainer
+                    gameOver = {this.state.gameOver}
+                    onResetButtonClick = {this.onResetButtonClick}
+                    onGameButtonClick = {this.onGameButtonClick} />
+            </div> :
+            <div>
+                <ButtonContainer
+                    gameOver = {this.state.gameOver}
+                    onResetButtonClick = {this.onResetButtonClick}
+                    onGameButtonClick = {this.onGameButtonClick} /> <br /> <br />
+                <CommentContainer
+                    text = {this.state.text}
+                    isLoading = {this.state.isLoading} />
+            </div>
+
+        return (
+            <div id="gameContainer">
+                <NavHeader
+                    gameOver = {this.state.gameOver}
+                    score = {this.state.score}
+                    subreddit = {this.state.subredditName}
+                    numLives = {this.state.numLives} /> <br />
+                {buttonCommentContainer}
+            </div>
+        );
+    }
+}
+
+class ButtonContainer extends React.Component {
+    render() {
+        const buttons = this.props.gameOver ?
+            <div>
+                Play Again? <br /> <br />
+                <ResetButton onButtonClick = {this.props.onResetButtonClick} />
+            </div> :
+            <div>
+                <HumanButton onButtonClick = {this.props.onGameButtonClick} /> &nbsp;
+                <RoboButton onButtonClick = {this.props.onGameButtonClick} />
+            </div>
+
+        return (
+            <div>
+                {buttons}
+            </div>
+        );
+    }
+}
+
+class ResetButton extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(e) {
+        e.preventDefault();
+        this.props.onButtonClick();
     }
 
     render() {
         return (
-            <div id="gameContainer">
-                <NavHeader type={this.state.userType} subreddit={this.state.subredditName} />
-                <HumanButton onButtonClick={this.onHumanButtonClick} /> &nbsp;
-                <RoboButton onButtonClick={this.onRoboButtonClick} /> <br /> <br />
-                <CommentContainer text={this.state.text} isLoading={this.state.isLoading} />
-            </div>
+            <button type="button" id="resetButton" onClick={this.handleClick}>🕹️</button>
         );
     }
 }

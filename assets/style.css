@@ -11,11 +11,16 @@
     padding: 20px;
 }
 
-#humanButton, #roboButton {
+#humanButton, #roboButton, #resetButton {
     font-size: 36px;
     width: 10vw;
 }
 
 #dangerousHTML {
     text-align: center;
+}
+
+#navTable {
+    width: 100%;
+    table-layout: fixed;
 }

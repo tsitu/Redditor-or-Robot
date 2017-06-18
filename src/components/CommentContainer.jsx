@@ -2,7 +2,8 @@ import React from "react";
 
 class CommentContainer extends React.Component {
     render() {
-        const img = this.props.isLoading ? <div> <br /> <LoadingSpinner /> </div> :
+        const img = this.props.isLoading ?
+                    <div> <br /> <LoadingSpinner /> </div> :
                     <div id="dangerousHTML" dangerouslySetInnerHTML={{__html: this.props.text}} />
         return (
             <div>
