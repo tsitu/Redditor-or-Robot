@@ -7,9 +7,13 @@ import { getHot, getUser, getRandom } from "../utils/api.js";
 import ssBotList from "../utils/ssbotlist.js";
 import SnuOwnd from "../utils/snuownd.js";
 
+// Globals
 let hotSubmissions = null;
 let ssComments = null;
-let lifeTracker = 3;
+let lifeTracker = null;
+let ssBotListCopy = null;
+let congratsThreshold = null;
+let reloadThreshold = null;
 
 class GameContainer extends React.Component {
     constructor(props) {
@@ -21,13 +25,21 @@ class GameContainer extends React.Component {
             userType: '',
             numLives: 3,
             score: 0,
-            gameOver: false
+            gameOver: false,
+            isGoodJob: false,
+            isWrongAnswer: false,
+            isCongrats: false
         };
 
         this.reloadComments = this.reloadComments.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
         this.onResetButtonClick = this.onResetButtonClick.bind(this);
         this.onGameButtonClick = this.onGameButtonClick.bind(this);
+
+        lifeTracker = 3;
+        ssBotListCopy = ssBotList;
+        congratsThreshold = 266;
+        reloadThreshold = 22;
     }
 
     componentDidMount() {
@@ -35,10 +47,12 @@ class GameContainer extends React.Component {
     }
 
     componentDidUpdate() {
-        if (lifeTracker != this.state.numLives) {
+        if (lifeTracker && (lifeTracker != this.state.numLives)) {
             lifeTracker = this.state.numLives;
             this.reloadComments();
         }
+
+        // console.log("ssBotListCopy: " + ssBotListCopy.length + ", hotSubmissions: " + hotSubmissions.length + ", ssComments: " + ssComments.length);
     }
 
     reloadComments() {
@@ -49,7 +63,19 @@ class GameContainer extends React.Component {
             return;
         }
 
-        const randomSS = ssBotList[getRandom(ssBotList.length)];
+        if (ssBotListCopy.length < congratsThreshold) {
+            this.setState({
+                gameOver: true,
+                isCongrats: true
+            })
+            return;
+        }
+
+        const randomSS = ssBotListCopy[getRandom(ssBotListCopy.length)];
+        ssBotListCopy = ssBotListCopy.filter(el => {
+            return el.subreddit !== randomSS.subreddit; // Filter out seen subreddits
+        });
+
         this.setState({
             subredditName: randomSS.subreddit,
             userType: ''
@@ -73,7 +99,13 @@ class GameContainer extends React.Component {
         apiCalls.push(hotPromise);
         apiCalls.push(userPromise);
 
-        Promise.all(apiCalls).then(() => this.handleUpdate());
+        Promise.all(apiCalls).then(() => {
+            this.setState({
+                isGoodJob: false,
+                isWrongAnswer: false
+            });
+            this.handleUpdate();
+        });
     }
 
     handleUpdate() {
@@ -82,11 +114,24 @@ class GameContainer extends React.Component {
             return;
         }
 
+        if (hotSubmissions.length === reloadThreshold || ssComments.length === reloadThreshold) {
+            this.setState({
+                text: '',
+                isLoading: true,
+                isGoodJob: true
+            });
+            this.reloadComments();
+            return;
+        }
+
         const roll = getRandom(2);
 
         if (roll === 0) {
             const randomSubmission = hotSubmissions[getRandom(hotSubmissions.length)];
             const randomComment = randomSubmission.comments[getRandom(randomSubmission.comments.length)];
+            hotSubmissions = hotSubmissions.filter(el => {
+                return el.id !== randomSubmission.id; // Filter out seen submissions
+            });
 
             if (!randomComment) {
                 this.handleUpdate();
@@ -109,6 +154,9 @@ class GameContainer extends React.Component {
         }
         else if (roll === 1) {
             const randomComment = ssComments[getRandom(ssComments.length)];
+            ssComments = ssComments.filter(el => {
+                return el.id !== randomComment.id; // Filter out seen comments
+            });
 
             if (randomComment.gilded > 0) {
                 console.log(randomComment.gilded + " gold on comment: " + randomComment.id);
@@ -132,6 +180,11 @@ class GameContainer extends React.Component {
             return;
         }
 
+        if (this.state.isLoading === true) {
+            console.log("I'm loadin' fool!");
+            return;
+        }
+
         this.setState({
             text: '',
             isLoading: true
@@ -145,7 +198,8 @@ class GameContainer extends React.Component {
         }
         else if (this.state.userType != type) {
             this.setState({
-                numLives: this.state.numLives - 1
+                numLives: this.state.numLives - 1,
+                isWrongAnswer: true
             });
         }
         else {
@@ -159,6 +213,7 @@ class GameContainer extends React.Component {
             <div>
                 <ButtonContainer
                     gameOver = {this.state.gameOver}
+                    isCongrats = {this.state.isCongrats}
                     onResetButtonClick = {this.onResetButtonClick}
                     onGameButtonClick = {this.onGameButtonClick} />
             </div> :
@@ -169,7 +224,9 @@ class GameContainer extends React.Component {
                     onGameButtonClick = {this.onGameButtonClick} />
                 <CommentContainer
                     text = {this.state.text}
-                    isLoading = {this.state.isLoading} />
+                    isLoading = {this.state.isLoading}
+                    isGoodJob = {this.state.isGoodJob}
+                    isWrongAnswer = {this.state.isWrongAnswer} />
             </div>
 
         return (
@@ -187,6 +244,7 @@ class GameContainer extends React.Component {
 
 class ButtonContainer extends React.Component {
     render() {
+        const congrats = this.props.isCongrats ? <div> Congratulations! <br /> </div> : ''
         const buttons = this.props.gameOver ?
             <div>
                 Play Again? <br /> <br />
@@ -199,6 +257,7 @@ class ButtonContainer extends React.Component {
 
         return (
             <div>
+                {congrats}
                 {buttons}
             </div>
         );

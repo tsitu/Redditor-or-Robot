@@ -2,12 +2,16 @@ import React from "react";
 
 class CommentContainer extends React.Component {
     render() {
-        const img = this.props.isLoading ?
-                    <div> <br /> <LoadingSpinner /> </div> :
-                    <div id="dangerousHTML" dangerouslySetInnerHTML={{__html: this.props.text}} />
+        const goodJob = this.props.isGoodJob ? <div> <br /> Good job! On to the next subreddit... </div> : ''
+        const wrongAnswer = this.props.isWrongAnswer ? <div> <br /> Whoops! Moving on... </div> : ''
+        const commentBody = this.props.isLoading ?
+            <div> <br /> <LoadingSpinner /> </div> :
+            <div id="dangerousHTML" dangerouslySetInnerHTML={{__html: this.props.text}} />
         return (
             <div>
-                {img}
+                {goodJob}
+                {wrongAnswer}
+                {commentBody}
             </div>
         );
     }
