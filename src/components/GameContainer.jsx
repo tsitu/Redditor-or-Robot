@@ -5,6 +5,7 @@ import CommentContainer from "./CommentContainer.jsx";
 
 import { getHot, getUser, getRandom } from "../utils/api.js";
 import ssBotList from "../utils/ssbotlist.js";
+import commonBotList from "../utils/commonbotlist.js";
 import SnuOwnd from "../utils/snuownd.js";
 
 // Globals
@@ -142,6 +143,11 @@ class GameContainer extends React.Component {
                 return;
             }
 
+            if (commonBotList.indexOf(randomComment.author.name) > -1) {
+                this.handleUpdate();
+                return;
+            }
+
             if (randomSubmission.gilded > 0) {
                 console.log(randomSubmission.gilded + " gold on post: " + randomSubmission.id);
             }
@@ -216,7 +222,8 @@ class GameContainer extends React.Component {
             }
             incorrectAnswers.push({
                 url: urlBuild,
-                id: randomComment.id
+                id: randomComment.id,
+                user: randomComment.author.name
             });
             //console.log(incorrectAnswers);
         }
@@ -274,24 +281,24 @@ class ButtonContainer extends React.Component {
                     incorrectAnswersDisplay =
                         <div>
                             😔 <br />
-                            <a href={c[0].url} target="_blank">{c[0].id}</a>
+                            <a href={c[0].url} target="_blank">{c[0].user}: {c[0].id}</a>
                         </div>
                     break;
                 case 2:
                     incorrectAnswersDisplay =
                         <div>
                             😔 <br />
-                            <a href={c[0].url} target="_blank">{c[0].id}</a> <br />
-                            <a href={c[1].url} target="_blank">{c[1].id}</a>
+                            <a href={c[0].url} target="_blank">{c[0].user}: {c[0].id}</a> <br />
+                            <a href={c[1].url} target="_blank">{c[1].user}: {c[1].id}</a>
                         </div>
                     break;
                 case 3:
                     incorrectAnswersDisplay =
                         <div>
                             😔 <br />
-                            <a href={c[0].url} target="_blank">{c[0].id}</a> <br />
-                            <a href={c[1].url} target="_blank">{c[1].id}</a> <br />
-                            <a href={c[2].url} target="_blank">{c[2].id}</a>
+                            <a href={c[0].url} target="_blank">{c[0].user}: {c[0].id}</a> <br />
+                            <a href={c[1].url} target="_blank">{c[1].user}: {c[1].id}</a> <br />
+                            <a href={c[2].url} target="_blank">{c[2].user}: {c[2].id}</a>
                         </div>
                     break;
             }
