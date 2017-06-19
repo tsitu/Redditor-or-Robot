@@ -14,6 +14,9 @@ let lifeTracker = null;
 let ssBotListCopy = null;
 let congratsThreshold = null;
 let reloadThreshold = null;
+let incorrectAnswers = null;
+let randomComment = null;
+let randomSubmission = null;
 
 class GameContainer extends React.Component {
     constructor(props) {
@@ -40,6 +43,7 @@ class GameContainer extends React.Component {
         ssBotListCopy = ssBotList;
         congratsThreshold = 266;
         reloadThreshold = 22;
+        incorrectAnswers = [];
     }
 
     componentDidMount() {
@@ -127,8 +131,8 @@ class GameContainer extends React.Component {
         const roll = getRandom(2);
 
         if (roll === 0) {
-            const randomSubmission = hotSubmissions[getRandom(hotSubmissions.length)];
-            const randomComment = randomSubmission.comments[getRandom(randomSubmission.comments.length)];
+            randomSubmission = hotSubmissions[getRandom(hotSubmissions.length)];
+            randomComment = randomSubmission.comments[getRandom(randomSubmission.comments.length)];
             hotSubmissions = hotSubmissions.filter(el => {
                 return el.id !== randomSubmission.id; // Filter out seen submissions
             });
@@ -153,7 +157,7 @@ class GameContainer extends React.Component {
             });
         }
         else if (roll === 1) {
-            const randomComment = ssComments[getRandom(ssComments.length)];
+            randomComment = ssComments[getRandom(ssComments.length)];
             ssComments = ssComments.filter(el => {
                 return el.id !== randomComment.id; // Filter out seen comments
             });
@@ -201,6 +205,20 @@ class GameContainer extends React.Component {
                 numLives: this.state.numLives - 1,
                 isWrongAnswer: true
             });
+
+            // Add precise comment permalink
+            let urlBuild = null;
+            if (randomComment.link_permalink) {
+                urlBuild = randomComment.link_permalink + randomComment.id;
+            }
+            else {
+                urlBuild = "https://reddit.com" + randomSubmission.permalink + randomComment.id;
+            }
+            incorrectAnswers.push({
+                url: urlBuild,
+                id: randomComment.id
+            });
+            //console.log(incorrectAnswers);
         }
         else {
             console.log("Shenanigans in GameButtonClick");
@@ -215,7 +233,8 @@ class GameContainer extends React.Component {
                     gameOver = {this.state.gameOver}
                     isCongrats = {this.state.isCongrats}
                     onResetButtonClick = {this.onResetButtonClick}
-                    onGameButtonClick = {this.onGameButtonClick} />
+                    onGameButtonClick = {this.onGameButtonClick}
+                    incorrectAnswers = {incorrectAnswers} />
             </div> :
             <div>
                 <ButtonContainer
@@ -244,11 +263,45 @@ class GameContainer extends React.Component {
 
 class ButtonContainer extends React.Component {
     render() {
+        let incorrectAnswersDisplay = null;
+        if (this.props.gameOver && this.props.incorrectAnswers) {
+            const c = this.props.incorrectAnswers;
+            switch(c.length) {
+                case 0:
+                    incorrectAnswersDisplay = '';
+                    break;
+                case 1:
+                    incorrectAnswersDisplay =
+                        <div>
+                            😔 <br />
+                            <a href={c[0].url} target="_blank">{c[0].id}</a>
+                        </div>
+                    break;
+                case 2:
+                    incorrectAnswersDisplay =
+                        <div>
+                            😔 <br />
+                            <a href={c[0].url} target="_blank">{c[0].id}</a> <br />
+                            <a href={c[1].url} target="_blank">{c[1].id}</a>
+                        </div>
+                    break;
+                case 3:
+                    incorrectAnswersDisplay =
+                        <div>
+                            😔 <br />
+                            <a href={c[0].url} target="_blank">{c[0].id}</a> <br />
+                            <a href={c[1].url} target="_blank">{c[1].id}</a> <br />
+                            <a href={c[2].url} target="_blank">{c[2].id}</a>
+                        </div>
+                    break;
+            }
+        }
         const congrats = this.props.isCongrats ? <div> Congratulations! <br /> </div> : ''
         const buttons = this.props.gameOver ?
             <div>
                 Play Again? <br /> <br />
-                <ResetButton onButtonClick = {this.props.onResetButtonClick} />
+                <ResetButton onButtonClick = {this.props.onResetButtonClick} /> <br /> <br />
+                {incorrectAnswersDisplay}
             </div> :
             <div>
                 <HumanButton onButtonClick = {this.props.onGameButtonClick} /> &nbsp;
