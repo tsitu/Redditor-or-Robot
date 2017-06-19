@@ -9,15 +9,15 @@ import commonBotList from "../utils/commonbotlist.js";
 import SnuOwnd from "../utils/snuownd.js";
 
 // Globals
-let hotSubmissions = null;
-let ssComments = null;
-let lifeTracker = null;
-let ssBotListCopy = null;
-let congratsThreshold = null;
-let reloadThreshold = null;
-let incorrectAnswers = null;
-let randomComment = null;
-let randomSubmission = null;
+let HOT_SUBMISSIONS = null;
+let SS_COMMENTS = null;
+let LIFE_TRACKER = null;
+let SS_BOTLISTCOPY = null;
+let CONGRATS_THRESHOLD = null;
+let RELOAD_THRESHOLD = null;
+let INCORRECT_ANSWERS = null;
+let RANDOM_COMMENT = null;
+let RANDOM_SUBMISSION = null;
 
 class GameContainer extends React.Component {
     constructor(props) {
@@ -40,11 +40,11 @@ class GameContainer extends React.Component {
         this.onResetButtonClick = this.onResetButtonClick.bind(this);
         this.onGameButtonClick = this.onGameButtonClick.bind(this);
 
-        lifeTracker = 3;
-        ssBotListCopy = ssBotList;
-        congratsThreshold = 266;
-        reloadThreshold = 22;
-        incorrectAnswers = [];
+        LIFE_TRACKER = 3;
+        SS_BOTLISTCOPY = ssBotList;
+        CONGRATS_THRESHOLD = 266;
+        RELOAD_THRESHOLD = 22;
+        INCORRECT_ANSWERS = [];
     }
 
     componentDidMount() {
@@ -52,12 +52,12 @@ class GameContainer extends React.Component {
     }
 
     componentDidUpdate() {
-        if (lifeTracker && (lifeTracker != this.state.numLives)) {
-            lifeTracker = this.state.numLives;
+        if (LIFE_TRACKER && (LIFE_TRACKER != this.state.numLives)) {
+            LIFE_TRACKER = this.state.numLives;
             this.reloadComments();
         }
 
-        // console.log("ssBotListCopy: " + ssBotListCopy.length + ", hotSubmissions: " + hotSubmissions.length + ", ssComments: " + ssComments.length);
+        // console.log("SS_BOTLISTCOPY: " + SS_BOTLISTCOPY.length + ", HOT_SUBMISSIONS: " + HOT_SUBMISSIONS.length + ", SS_COMMENTS: " + SS_COMMENTS.length);
     }
 
     reloadComments() {
@@ -68,7 +68,7 @@ class GameContainer extends React.Component {
             return;
         }
 
-        if (ssBotListCopy.length < congratsThreshold) {
+        if (SS_BOTLISTCOPY.length < CONGRATS_THRESHOLD) {
             this.setState({
                 gameOver: true,
                 isCongrats: true
@@ -76,8 +76,8 @@ class GameContainer extends React.Component {
             return;
         }
 
-        const randomSS = ssBotListCopy[getRandom(ssBotListCopy.length)];
-        ssBotListCopy = ssBotListCopy.filter(el => {
+        const randomSS = SS_BOTLISTCOPY[getRandom(SS_BOTLISTCOPY.length)];
+        SS_BOTLISTCOPY = SS_BOTLISTCOPY.filter(el => {
             return el.subreddit !== randomSS.subreddit; // Filter out seen subreddits
         });
 
@@ -87,15 +87,15 @@ class GameContainer extends React.Component {
         });
 
         const hotPromise = getHot(randomSS.subreddit).then(value => {
-            hotSubmissions = value;
-            console.log(hotSubmissions);
+            HOT_SUBMISSIONS = value;
+            console.log(HOT_SUBMISSIONS);
         }, reason => {
             console.log(reason);
         });
 
         const userPromise = getUser(randomSS.username).then(value => {
-            ssComments = value;
-            console.log(ssComments);
+            SS_COMMENTS = value;
+            console.log(SS_COMMENTS);
         }, reason => {
             console.log(reason);
         });
@@ -114,12 +114,12 @@ class GameContainer extends React.Component {
     }
 
     handleUpdate() {
-        if (!hotSubmissions || !ssComments) {
+        if (!HOT_SUBMISSIONS || !SS_COMMENTS) {
             console.log("Null object[s], please refresh");
             return;
         }
 
-        if (hotSubmissions.length === reloadThreshold || ssComments.length === reloadThreshold) {
+        if (HOT_SUBMISSIONS.length === RELOAD_THRESHOLD || SS_COMMENTS.length === RELOAD_THRESHOLD) {
             this.setState({
                 text: '',
                 isLoading: true,
@@ -132,48 +132,48 @@ class GameContainer extends React.Component {
         const roll = getRandom(2);
 
         if (roll === 0) {
-            randomSubmission = hotSubmissions[getRandom(hotSubmissions.length)];
-            randomComment = randomSubmission.comments[getRandom(randomSubmission.comments.length)];
-            hotSubmissions = hotSubmissions.filter(el => {
-                return el.id !== randomSubmission.id; // Filter out seen submissions
+            RANDOM_SUBMISSION = HOT_SUBMISSIONS[getRandom(HOT_SUBMISSIONS.length)];
+            RANDOM_COMMENT = RANDOM_SUBMISSION.comments[getRandom(RANDOM_SUBMISSION.comments.length)];
+            HOT_SUBMISSIONS = HOT_SUBMISSIONS.filter(el => {
+                return el.id !== RANDOM_SUBMISSION.id; // Filter out seen submissions
             });
 
-            if (!randomComment) {
+            if (!RANDOM_COMMENT) {
                 this.handleUpdate();
                 return;
             }
 
-            if (commonBotList.indexOf(randomComment.author.name) > -1) {
+            if (commonBotList.indexOf(RANDOM_COMMENT.author.name) > -1) {
                 this.handleUpdate();
                 return;
             }
 
-            if (randomSubmission.gilded > 0) {
-                console.log(randomSubmission.gilded + " gold on post: " + randomSubmission.id);
+            if (RANDOM_SUBMISSION.gilded > 0) {
+                console.log(RANDOM_SUBMISSION.gilded + " gold on post: " + RANDOM_SUBMISSION.id);
             }
 
-            if (randomComment.gilded > 0) {
-                console.log(randomComment.gilded + " gold on comment: " + randomComment.id);
+            if (RANDOM_COMMENT.gilded > 0) {
+                console.log(RANDOM_COMMENT.gilded + " gold on comment: " + RANDOM_COMMENT.id);
             }
 
             this.setState({
-                text: SnuOwnd.getParser().render(randomComment.body),
+                text: SnuOwnd.getParser().render(RANDOM_COMMENT.body),
                 isLoading: false,
                 userType: 'human'
             });
         }
         else if (roll === 1) {
-            randomComment = ssComments[getRandom(ssComments.length)];
-            ssComments = ssComments.filter(el => {
-                return el.id !== randomComment.id; // Filter out seen comments
+            RANDOM_COMMENT = SS_COMMENTS[getRandom(SS_COMMENTS.length)];
+            SS_COMMENTS = SS_COMMENTS.filter(el => {
+                return el.id !== RANDOM_COMMENT.id; // Filter out seen comments
             });
 
-            if (randomComment.gilded > 0) {
-                console.log(randomComment.gilded + " gold on comment: " + randomComment.id);
+            if (RANDOM_COMMENT.gilded > 0) {
+                console.log(RANDOM_COMMENT.gilded + " gold on comment: " + RANDOM_COMMENT.id);
             }
 
             this.setState({
-                text: SnuOwnd.getParser().render(randomComment.body),
+                text: SnuOwnd.getParser().render(RANDOM_COMMENT.body),
                 isLoading: false,
                 userType: 'robot'
             });
@@ -185,7 +185,7 @@ class GameContainer extends React.Component {
     }
 
     onGameButtonClick(type) {
-        if (!hotSubmissions || !ssComments) {
+        if (!HOT_SUBMISSIONS || !SS_COMMENTS) {
             console.log("Null object[s], please refresh");
             return;
         }
@@ -214,18 +214,18 @@ class GameContainer extends React.Component {
 
             // Add precise comment permalink
             let urlBuild = null;
-            if (randomComment.link_permalink) {
-                urlBuild = randomComment.link_permalink + randomComment.id;
+            if (RANDOM_COMMENT.link_permalink) {
+                urlBuild = RANDOM_COMMENT.link_permalink + RANDOM_COMMENT.id;
             }
             else {
-                urlBuild = "https://reddit.com" + randomSubmission.permalink + randomComment.id;
+                urlBuild = "https://reddit.com" + RANDOM_SUBMISSION.permalink + RANDOM_COMMENT.id;
             }
-            incorrectAnswers.push({
+            INCORRECT_ANSWERS.push({
                 url: urlBuild,
-                id: randomComment.id,
-                user: randomComment.author.name
+                id: RANDOM_COMMENT.id,
+                user: RANDOM_COMMENT.author.name
             });
-            //console.log(incorrectAnswers);
+            // console.log(INCORRECT_ANSWERS);
         }
         else {
             console.log("Shenanigans in GameButtonClick");
@@ -241,7 +241,7 @@ class GameContainer extends React.Component {
                     isCongrats = {this.state.isCongrats}
                     onResetButtonClick = {this.onResetButtonClick}
                     onGameButtonClick = {this.onGameButtonClick}
-                    incorrectAnswers = {incorrectAnswers} />
+                    incorrectAnswers = {INCORRECT_ANSWERS} />
             </div> :
             <div>
                 <ButtonContainer
