@@ -266,8 +266,7 @@ const ssBotList = [
     { subreddit: 'bigbrother', username: '/u/BigBrother_SS', dateAdded: '2016-08-05' },
     { subreddit: 'okcupid', username: '/u/OkCupid_SS', dateAdded: '2016-08-05' },
     { subreddit: 'bodybuilding', username: '/u/bodybuilding_SS', dateAdded: '2016-08-05' },
-    { subreddit: 'interestingasfuck', username: '/u/interestingasfuck_SS', dateAdded: '2016-08-05' },
-    { subreddit: 'subredditsimulator', username: '/u/SubredditSim-SS', dateAdded: '2016-08-05' }
+    { subreddit: 'interestingasfuck', username: '/u/interestingasfuck_SS', dateAdded: '2016-08-05' }
 ];
 
 module.exports = ssBotList;

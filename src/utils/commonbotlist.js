@@ -4,6 +4,8 @@ var commonBotList = [
     'autowikibot',
     'autotldr',
     'User_Simulator',
+    'ExplainsRemovals',
+    'SnapshillBot',
     //
 ];
 

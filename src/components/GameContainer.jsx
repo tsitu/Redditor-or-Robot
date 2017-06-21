@@ -3,7 +3,7 @@ import React from "react";
 import NavHeader from "./NavHeader.jsx";
 import CommentContainer from "./CommentContainer.jsx";
 
-import { getHot, getUser, getRandom } from "../utils/api.js";
+import { getHot, getUser, getRandom, authenticateUser, validateAuth } from "../utils/api.js";
 import ssBotList from "../utils/ssbotlist.js";
 import commonBotList from "../utils/commonbotlist.js";
 import SnuOwnd from "../utils/snuownd.js";
@@ -18,6 +18,8 @@ let RELOAD_THRESHOLD = null;
 let INCORRECT_ANSWERS = null;
 let RANDOM_COMMENT = null;
 let RANDOM_SUBMISSION = null;
+let REQUESTER = null;
+let IS_AUTH = false;
 
 class GameContainer extends React.Component {
     constructor(props) {
@@ -48,7 +50,30 @@ class GameContainer extends React.Component {
     }
 
     componentDidMount() {
-        this.reloadComments();
+        // Authentication routine
+        const token = new URL(window.location.href).searchParams.get('%23access_token');
+        // can't fucking isolate access token, code param doesn't fucking work...
+        // why do i need this? to not ratelimit and to fetch your username
+        // not ratelimiting is the most pressing issue at hand...
+        console.log("token: " + token);
+        if (!token && !IS_AUTH) {
+            authenticateUser();
+            return;
+        }
+        // validateAuth(token).then(value => {
+        //     console.log(value);
+        //     REQUESTER = value;
+        //     IS_AUTH = true;
+        //     this.reloadComments();
+        // }, reason => {
+        //     console.log("Fail");
+        //     console.log(reason);
+        //     return;
+        // });
+        REQUESTER = validateAuth(token);
+        console.log(REQUESTER);
+        IS_AUTH = true;
+        //this.reloadComments();
     }
 
     componentDidUpdate() {
@@ -86,14 +111,14 @@ class GameContainer extends React.Component {
             userType: ''
         });
 
-        const hotPromise = getHot(randomSS.subreddit).then(value => {
+        const hotPromise = getHot(REQUESTER, randomSS.subreddit).then(value => {
             HOT_SUBMISSIONS = value;
             console.log(HOT_SUBMISSIONS);
         }, reason => {
             console.log(reason);
         });
 
-        const userPromise = getUser(randomSS.username).then(value => {
+        const userPromise = getUser(REQUESTER, randomSS.username).then(value => {
             SS_COMMENTS = value;
             console.log(SS_COMMENTS);
         }, reason => {
