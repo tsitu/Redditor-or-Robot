@@ -21,7 +21,12 @@ class LoginContainer extends React.Component {
         // TODO: Explain that I need identity scope for currentUsername, read for getHot, history for getUser
         // TODO: Explain that there may be bots identified as "human", bots are exclusively ones posting on SS
 
-        const URLToken = new URL(window.location.href).searchParams.get('code');
+        let URLToken = null;
+        const randomState = new URL(window.location.href).searchParams.get('state');
+        if (randomState == document.cookie) {
+            URLToken = new URL(window.location.href).searchParams.get('code');
+            document.cookie = '';
+        }
         const authCheck = localStorage.getItem("auth");
         if (URLToken && !authCheck) {
             validateAuth(URLToken).then(value => {

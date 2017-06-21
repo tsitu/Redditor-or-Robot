@@ -1,12 +1,13 @@
 'use strict';
 const snoowrap = require('snoowrap');
+const randomstring = require('randomstring');
 
 function getHot(requester, sub) {
     return requester.getHot(sub).map(post => post.expandReplies({limit: 1, depth: 1}));
 }
 
 function getUser(requester, name) {
-    // Returns Listing of 25 Comments, amount appends to that
+    // Returns Listing of 25 Comments from "new", amount appends to that
     // All bots have been around 10 months so 100 comments on all is likely
     // return requester.getUser(name).getComments().fetchMore({amount: 50});
     return requester.getUser(name).getComments();
@@ -17,6 +18,8 @@ function getRandom(max) {
 }
 
 function authenticateUser() {
+    const randomState = randomstring.generate();
+    document.cookie = randomState;
     window.location = snoowrap.getAuthUrl({
         clientId: 'VOXTB6cJcmGt8w', // Dev
         // clientId: 'fZR5Gbz9a0Odeg',
@@ -24,8 +27,7 @@ function authenticateUser() {
         redirectUri: 'http://192.168.0.103:8080/',
         // redirectUri: 'https://tsitu.github.io/Redditor-or-Robot/',
         permanent: true,
-        state: 'testing'
-        // Store node randomstring.generate() in localStorage and compare when redirected
+        state: randomState
     });
 }
 
