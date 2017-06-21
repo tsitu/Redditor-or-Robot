@@ -6,6 +6,8 @@ var commonBotList = [
     'User_Simulator',
     'ExplainsRemovals',
     'SnapshillBot',
+    'FurryMirrorBot',
+    'Thimotron',
     //
 ];
 

@@ -3,7 +3,7 @@ import React from "react";
 import NavHeader from "./NavHeader.jsx";
 import CommentContainer from "./CommentContainer.jsx";
 
-import { getHot, getUser, getRandom } from "../utils/api.js";
+import { getHot, getUser, getRandom, getMe } from "../utils/api.js";
 import ssBotList from "../utils/ssbotlist.js";
 import commonBotList from "../utils/commonbotlist.js";
 import SnuOwnd from "../utils/snuownd.js";
@@ -35,7 +35,7 @@ class GameContainer extends React.Component {
             isGoodJob: false,
             isWrongAnswer: false,
             isCongrats: false,
-            playerName: 'dev'
+            playerName: ''
         };
 
         this.reloadComments = this.reloadComments.bind(this);
@@ -48,6 +48,19 @@ class GameContainer extends React.Component {
         CONGRATS_THRESHOLD = 266;
         RELOAD_THRESHOLD = 22;
         INCORRECT_ANSWERS = [];
+        REQUESTER = new snoowrap(JSON.parse(localStorage.getItem("auth")));
+        REQUESTER.config(JSON.parse(localStorage.getItem("config")));
+    }
+
+    componentDidMount() {
+        getMe(REQUESTER).then(user => {
+            this.setState({
+                playerName: user.name
+            });
+            this.reloadComments();
+        }, reason => {
+            console.log(reason);
+        });
     }
 
     componentDidUpdate() {
@@ -56,7 +69,9 @@ class GameContainer extends React.Component {
             this.reloadComments();
         }
 
-        // console.log("SS_BOTLISTCOPY: " + SS_BOTLISTCOPY.length + ", HOT_SUBMISSIONS: " + HOT_SUBMISSIONS.length + ", SS_COMMENTS: " + SS_COMMENTS.length);
+        // console.log("SS_BOTLISTCOPY: " + SS_BOTLISTCOPY.length);
+        // console.log("HOT_SUBMISSIONS: " + HOT_SUBMISSIONS.length;
+        // console.log("SS_COMMENTS: " + SS_COMMENTS.length);
     }
 
     reloadComments() {
@@ -87,14 +102,14 @@ class GameContainer extends React.Component {
 
         const hotPromise = getHot(REQUESTER, randomSS.subreddit).then(value => {
             HOT_SUBMISSIONS = value;
-            console.log(HOT_SUBMISSIONS);
+            // console.log(HOT_SUBMISSIONS);
         }, reason => {
             console.log(reason);
         });
 
         const userPromise = getUser(REQUESTER, randomSS.username).then(value => {
             SS_COMMENTS = value;
-            console.log(SS_COMMENTS);
+            // console.log(SS_COMMENTS);
         }, reason => {
             console.log(reason);
         });

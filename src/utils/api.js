@@ -18,10 +18,11 @@ function getRandom(max) {
 
 function authenticateUser() {
     window.location = snoowrap.getAuthUrl({
-        clientId: 'VOXTB6cJcmGt8w',
+        clientId: 'VOXTB6cJcmGt8w', // Dev
+        // clientId: 'fZR5Gbz9a0Odeg',
         scope: ['identity', 'read', 'history'],
         redirectUri: 'http://192.168.0.103:8080/',
-        // redirectUri: 'https://tsitu.github.io/Reddit-API-Games/',
+        // redirectUri: 'https://tsitu.github.io/Redditor-or-Robot/',
         permanent: true,
         state: 'testing'
         // Store node randomstring.generate() in localStorage and compare when redirected
@@ -32,9 +33,10 @@ function validateAuth(token) {
     return snoowrap.fromAuthCode({
         code: token,
         userAgent: navigator.userAgent,
-        clientId: 'VOXTB6cJcmGt8w',
+        clientId: 'VOXTB6cJcmGt8w', // Dev
+        // clientId: 'fZR5Gbz9a0Odeg',
         redirectUri: 'http://192.168.0.103:8080/',
-        // redirectUri: 'https://tsitu.github.io/Reddit-API-Games/',
+        // redirectUri: 'https://tsitu.github.io/Redditor-or-Robot/',
     });
 }
 

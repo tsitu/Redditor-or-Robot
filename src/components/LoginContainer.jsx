@@ -25,7 +25,6 @@ class LoginContainer extends React.Component {
         const authCheck = localStorage.getItem("auth");
         if (URLToken && !authCheck) {
             validateAuth(URLToken).then(value => {
-                console.log(value);
                 const auth = {
                     userAgent: value.userAgent,
                     clientId: value.clientId,
@@ -33,6 +32,7 @@ class LoginContainer extends React.Component {
                     accessToken: value.accessToken
                 };
                 const config = value.config();
+
                 if (typeof(Storage) !== "undefined") {
                     localStorage.setItem("auth", JSON.stringify(auth));
                     localStorage.setItem("config", JSON.stringify(config));
@@ -40,17 +40,8 @@ class LoginContainer extends React.Component {
                 else {
                     console.log("No localStorage support.");
                 }
-                getMe(value).then(user => {
-                    this.setState({
-                        isLoggedIn: true,
-                        playerName: user.name
-                    });
-                    let currentURL = window.location.href;
-                    currentURL = currentURL.slice(0, currentURL.indexOf('?'));
-                    window.location = currentURL;
-                }, failure => {
-                    console.log(failure);
-                });
+
+                window.location = window.location.href.slice(0, window.location.href.indexOf('?'));
             }, reason => {
                 console.log(reason);
             });
@@ -70,7 +61,7 @@ class LoginContainer extends React.Component {
     }
 
     onPlayButtonClick() {
-        //
+        this.props.onPlayButtonClick();
     }
 
     onHelpButtonClick() {
@@ -85,7 +76,8 @@ class LoginContainer extends React.Component {
 
     onLogoutButtonClick() {
         if (this.state.isLoggedIn) {
-            localStorage.removeItem("storageToken");
+            localStorage.removeItem("auth");
+            localStorage.removeItem("config");
             this.setState({
                 isLoggedIn: false,
                 playerName: ''
@@ -95,20 +87,20 @@ class LoginContainer extends React.Component {
 
     render() {
         const nameString = this.state.isLoggedIn ?
-            <div>
-                Logged in as: {this.state.playerName}
-            </div> : ''
+            <p>
+                <i>Logged in as: {this.state.playerName}</i>
+            </p> : ''
         return (
             <div id="gameContainer">
                 🤓 - 🤖 <br />
-                Redditor or Robot? <br />
-                {nameString} <br />
+                Redditor or Robot? <br /> <br />
                 <PlayButton isLoggedIn={this.state.isLoggedIn} onButtonClick={this.onPlayButtonClick} />
                 <HelpButton onButtonClick={this.onHelpButtonClick} />
                 <LoginButton
                     isLoggedIn={this.state.isLoggedIn}
                     onLoginClick={this.onLoginButtonClick}
                     onLogoutClick={this.onLogoutButtonClick} />
+                {nameString}
             </div>
         );
     }

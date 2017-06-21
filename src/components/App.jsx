@@ -7,7 +7,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            game: () => <GameContainer onResetButtonClick={this.resetGame} />
+            game: () => <LoginContainer onPlayButtonClick={this.resetGame} />
         };
 
         this.resetGame = this.resetGame.bind(this);
@@ -23,8 +23,7 @@ class App extends React.Component {
         const ActiveGame = this.state.game;
         return (
             <div>
-                <LoginContainer />
-                {/*<ActiveGame />*/}
+                <ActiveGame />
             </div>
         );
     }
