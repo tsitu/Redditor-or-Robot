@@ -3,7 +3,7 @@ import React from "react";
 import NavHeader from "./NavHeader.jsx";
 import CommentContainer from "./CommentContainer.jsx";
 
-import { getHot, getUser, getRandom, authenticateUser, validateAuth } from "../utils/api.js";
+import { getHot, getUser, getRandom } from "../utils/api.js";
 import ssBotList from "../utils/ssbotlist.js";
 import commonBotList from "../utils/commonbotlist.js";
 import SnuOwnd from "../utils/snuownd.js";
@@ -34,7 +34,8 @@ class GameContainer extends React.Component {
             gameOver: false,
             isGoodJob: false,
             isWrongAnswer: false,
-            isCongrats: false
+            isCongrats: false,
+            playerName: 'dev'
         };
 
         this.reloadComments = this.reloadComments.bind(this);
@@ -47,30 +48,6 @@ class GameContainer extends React.Component {
         CONGRATS_THRESHOLD = 266;
         RELOAD_THRESHOLD = 22;
         INCORRECT_ANSWERS = [];
-    }
-
-    componentDidMount() {
-        // Authentication routine
-        // TODO: Provide instructions for revoking access
-        // TODO: Explain that I need identity scope for currentUsername, read for getHot, history for getUser
-        // TODO: Explain that there may be bots identified as "human", bots are exclusively ones posting on SS
-
-        const token = new URL(window.location.href).searchParams.get('code');
-        if (!token && !IS_AUTH) {
-            authenticateUser();
-            return;
-        }
-        else if (token && !IS_AUTH) {
-            validateAuth(token).then(value => {
-                console.log(value);
-                REQUESTER = value;
-                IS_AUTH = true;
-                this.reloadComments();
-            }, reason => {
-                console.log(reason);
-                return;
-            });
-        }
     }
 
     componentDidUpdate() {
@@ -283,7 +260,8 @@ class GameContainer extends React.Component {
                     gameOver = {this.state.gameOver}
                     score = {this.state.score}
                     subreddit = {this.state.subredditName}
-                    numLives = {this.state.numLives} /> <br />
+                    numLives = {this.state.numLives}
+                    playerName = {this.state.playerName} /> <br />
                 {buttonCommentContainer}
             </div>
         );

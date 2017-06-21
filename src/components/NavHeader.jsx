@@ -26,7 +26,7 @@ class NavHeader extends React.Component {
                 <table id="navTable">
                     <tbody>
                         <tr>
-                            <td>/u/dev</td>
+                            <td>/u/{this.props.playerName}</td>
                             <td>Score: {this.props.score}</td>
                             <td>/r/{this.props.subreddit}</td>
                             <td>{heartLives}</td>

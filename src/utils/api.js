@@ -1,6 +1,5 @@
 'use strict';
 const snoowrap = require('snoowrap');
-const config = require('./config.js');
 
 function getHot(requester, sub) {
     return requester.getHot(sub).map(post => post.expandReplies({limit: 1, depth: 1}));
@@ -39,10 +38,15 @@ function validateAuth(token) {
     });
 }
 
+function getMe(requester) {
+    return requester.getMe();
+}
+
 module.exports = {
     getHot,
     getUser,
     getRandom,
     authenticateUser,
-    validateAuth
+    validateAuth,
+    getMe
 };

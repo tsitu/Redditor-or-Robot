@@ -16,6 +16,11 @@
     width: 10vw;
 }
 
+#playButton {
+    font-size: 32px;
+    width: 15vw;
+}
+
 #dangerousHTML {
     text-align: center;
 }

@@ -1,6 +1,7 @@
 import React from "react";
 
 import GameContainer from "./GameContainer.jsx";
+import LoginContainer from "./LoginContainer.jsx";
 
 class App extends React.Component {
     constructor(props) {
@@ -22,7 +23,8 @@ class App extends React.Component {
         const ActiveGame = this.state.game;
         return (
             <div>
-                <ActiveGame />
+                <LoginContainer />
+                {/*<ActiveGame />*/}
             </div>
         );
     }
