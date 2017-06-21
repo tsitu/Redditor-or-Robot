@@ -18,8 +18,9 @@ var config = {
         }]
     },
     devServer: {
-        host: "192.168.0.108",
-        port: 3000,
+        // Dynamic IP: below will update occasionally
+        host: "192.168.0.103",
+        port: 8080,
     },
 };
 

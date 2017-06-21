@@ -51,29 +51,26 @@ class GameContainer extends React.Component {
 
     componentDidMount() {
         // Authentication routine
-        const token = new URL(window.location.href).searchParams.get('%23access_token');
-        // can't fucking isolate access token, code param doesn't fucking work...
-        // why do i need this? to not ratelimit and to fetch your username
-        // not ratelimiting is the most pressing issue at hand...
-        console.log("token: " + token);
+        // TODO: Provide instructions for revoking access
+        // TODO: Explain that I need identity scope for currentUsername, read for getHot, history for getUser
+        // TODO: Explain that there may be bots identified as "human", bots are exclusively ones posting on SS
+
+        const token = new URL(window.location.href).searchParams.get('code');
         if (!token && !IS_AUTH) {
             authenticateUser();
             return;
         }
-        // validateAuth(token).then(value => {
-        //     console.log(value);
-        //     REQUESTER = value;
-        //     IS_AUTH = true;
-        //     this.reloadComments();
-        // }, reason => {
-        //     console.log("Fail");
-        //     console.log(reason);
-        //     return;
-        // });
-        REQUESTER = validateAuth(token);
-        console.log(REQUESTER);
-        IS_AUTH = true;
-        //this.reloadComments();
+        else if (token && !IS_AUTH) {
+            validateAuth(token).then(value => {
+                console.log(value);
+                REQUESTER = value;
+                IS_AUTH = true;
+                this.reloadComments();
+            }, reason => {
+                console.log(reason);
+                return;
+            });
+        }
     }
 
     componentDidUpdate() {
