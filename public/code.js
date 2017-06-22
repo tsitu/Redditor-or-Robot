@@ -29164,7 +29164,7 @@ var LoadingSpinner = function (_React$Component2) {
     _createClass(LoadingSpinner, [{
         key: 'render',
         value: function render() {
-            return _react2.default.createElement('img', { src: '../../assets/spinner.gif', alt: 'Spinner', height: '42', width: '42' });
+            return _react2.default.createElement('img', { src: 'https://github.com/tsitu/Redditor-or-Robot/raw/master/assets/spinner.gif', alt: 'Spinner', height: '42', width: '42' });
         }
     }]);
 
