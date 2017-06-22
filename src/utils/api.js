@@ -1,6 +1,7 @@
 'use strict';
 const snoowrap = require('snoowrap');
 const randomstring = require('randomstring');
+const Cookies = require('js-cookie');
 
 function getHot(requester, sub) {
     return requester.getHot(sub).map(post => post.expandReplies({limit: 1, depth: 1}));
@@ -19,7 +20,7 @@ function getRandom(max) {
 
 function authenticateUser() {
     const randomState = randomstring.generate();
-    document.cookie = randomState;
+    Cookies.set('randomState', randomState);
     window.location = snoowrap.getAuthUrl({
         // clientId: 'VOXTB6cJcmGt8w', // Dev
         clientId: 'fZR5Gbz9a0Odeg',

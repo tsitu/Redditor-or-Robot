@@ -1,6 +1,7 @@
 import React from "react";
 
 import { authenticateUser, validateAuth, getMe } from "../utils/api.js";
+const Cookies = require('js-cookie');
 
 class LoginContainer extends React.Component {
     constructor(props) {
@@ -19,9 +20,9 @@ class LoginContainer extends React.Component {
     componentDidMount() {
         let URLToken = null;
         const randomState = new URL(window.location.href).searchParams.get('state');
-        if (randomState == document.cookie) {
+        if (randomState == Cookies.get('randomState')) {
             URLToken = new URL(window.location.href).searchParams.get('code');
-            document.cookie = '';
+            Cookies.remove('randomState');
         }
         const authCheck = localStorage.getItem("auth");
         if (URLToken && !authCheck) {
