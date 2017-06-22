@@ -71,10 +71,6 @@ class GameContainer extends React.Component {
             LIFE_TRACKER = this.state.numLives;
             this.reloadComments();
         }
-
-        // console.log("SS_BOTLISTCOPY: " + SS_BOTLISTCOPY.length);
-        // console.log("HOT_SUBMISSIONS: " + HOT_SUBMISSIONS.length;
-        // console.log("SS_COMMENTS: " + SS_COMMENTS.length);
     }
 
     reloadComments() {
@@ -244,7 +240,7 @@ class GameContainer extends React.Component {
                 isWrongAnswer: true
             });
 
-            // Add precise comment permalink
+            // Add precise comment permalinks
             let urlBuild = null;
             if (RANDOM_COMMENT.link_permalink) {
                 urlBuild = RANDOM_COMMENT.link_permalink + RANDOM_COMMENT.id;
@@ -257,7 +253,6 @@ class GameContainer extends React.Component {
                 id: RANDOM_COMMENT.id,
                 user: RANDOM_COMMENT.author.name
             });
-            // console.log(INCORRECT_ANSWERS);
         }
         else {
             console.log("Shenanigans in GameButtonClick");

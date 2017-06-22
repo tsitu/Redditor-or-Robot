@@ -17,10 +17,6 @@ class LoginContainer extends React.Component {
     }
 
     componentDidMount() {
-        // TODO: Provide instructions for revoking access
-        // TODO: Explain that I need identity scope for currentUsername, read for getHot, history for getUser
-        // TODO: Explain that there may be bots identified as "human", bots are exclusively ones posting on SS
-
         let URLToken = null;
         const randomState = new URL(window.location.href).searchParams.get('state');
         if (randomState == document.cookie) {
@@ -70,7 +66,7 @@ class LoginContainer extends React.Component {
     }
 
     onHelpButtonClick() {
-        window.open('https://github.com/tsitu', '_blank');
+        window.open('https://github.com/tsitu/Redditor-or-Robot#readme', '_blank');
     }
 
     onLoginButtonClick() {
