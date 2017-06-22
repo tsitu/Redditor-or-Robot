@@ -8,6 +8,7 @@ var commonBotList = [
     'SnapshillBot',
     'FurryMirrorBot',
     'Thimotron',
+    'DJ_Spam',
     //
 ];
 

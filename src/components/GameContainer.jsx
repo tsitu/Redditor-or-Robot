@@ -19,7 +19,8 @@ let INCORRECT_ANSWERS = null;
 let RANDOM_COMMENT = null;
 let RANDOM_SUBMISSION = null;
 let REQUESTER = null;
-let IS_AUTH = false;
+let GUESS_TRACKER = null;
+let GUESS_THRESHOLD = null;
 
 class GameContainer extends React.Component {
     constructor(props) {
@@ -45,11 +46,13 @@ class GameContainer extends React.Component {
 
         LIFE_TRACKER = 3;
         SS_BOTLISTCOPY = ssBotList;
-        CONGRATS_THRESHOLD = 266;
-        RELOAD_THRESHOLD = 22;
+        CONGRATS_THRESHOLD = 265;
+        RELOAD_THRESHOLD = 10;
         INCORRECT_ANSWERS = [];
         REQUESTER = new snoowrap(JSON.parse(localStorage.getItem("auth")));
         REQUESTER.config(JSON.parse(localStorage.getItem("config")));
+        GUESS_TRACKER = 0;
+        GUESS_THRESHOLD = 10;
     }
 
     componentDidMount() {
@@ -123,6 +126,7 @@ class GameContainer extends React.Component {
                 isGoodJob: false,
                 isWrongAnswer: false
             });
+            GUESS_TRACKER = 0;
             this.handleUpdate();
         });
     }
@@ -133,7 +137,10 @@ class GameContainer extends React.Component {
             return;
         }
 
-        if (HOT_SUBMISSIONS.length === RELOAD_THRESHOLD || SS_COMMENTS.length === RELOAD_THRESHOLD) {
+        if (HOT_SUBMISSIONS.length === RELOAD_THRESHOLD ||
+            SS_COMMENTS.length === RELOAD_THRESHOLD ||
+            GUESS_TRACKER === GUESS_THRESHOLD)
+        {
             this.setState({
                 text: '',
                 isLoading: true,
@@ -147,11 +154,18 @@ class GameContainer extends React.Component {
 
         if (roll === 0) {
             RANDOM_SUBMISSION = HOT_SUBMISSIONS[getRandom(HOT_SUBMISSIONS.length)];
-            RANDOM_COMMENT = RANDOM_SUBMISSION.comments[getRandom(RANDOM_SUBMISSION.comments.length)];
-            HOT_SUBMISSIONS = HOT_SUBMISSIONS.filter(el => {
-                return el.id !== RANDOM_SUBMISSION.id; // Filter out seen submissions
-            });
+            if (RANDOM_SUBMISSION.comments.length === 0) {
+                HOT_SUBMISSIONS = HOT_SUBMISSIONS.filter(el => {
+                    return el.id !== RANDOM_SUBMISSION.id; // Filter out empty submissions
+                });
+                this.handleUpdate();
+                return;
+            }
 
+            RANDOM_COMMENT = RANDOM_SUBMISSION.comments[getRandom(RANDOM_SUBMISSION.comments.length)];
+            RANDOM_SUBMISSION.comments = RANDOM_SUBMISSION.comments.filter(el => {
+                return el.id != RANDOM_COMMENT.id; // Filter out seen comments
+            })
             if (!RANDOM_COMMENT) {
                 this.handleUpdate();
                 return;
@@ -175,6 +189,8 @@ class GameContainer extends React.Component {
                 isLoading: false,
                 userType: 'human'
             });
+
+            GUESS_TRACKER = GUESS_TRACKER + 1;
         }
         else if (roll === 1) {
             RANDOM_COMMENT = SS_COMMENTS[getRandom(SS_COMMENTS.length)];
@@ -191,6 +207,8 @@ class GameContainer extends React.Component {
                 isLoading: false,
                 userType: 'robot'
             });
+
+            GUESS_TRACKER = GUESS_TRACKER + 1;
         }
     }
 
