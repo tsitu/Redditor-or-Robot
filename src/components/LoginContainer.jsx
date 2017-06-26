@@ -10,10 +10,6 @@ import HelpButton from './HelpButton';
 import { authenticateUser, validateAuth, getMe } from '../utils/api';
 
 class LoginContainer extends React.Component {
-  static onHelpButtonClick() {
-    window.open('https://github.com/tsitu/Redditor-or-Robot#readme', '_blank');
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -72,6 +68,10 @@ class LoginContainer extends React.Component {
 
   onPlayButtonClick() {
     this.props.onPlayButtonClick();
+  }
+
+  onHelpButtonClick() {
+    window.open('https://github.com/tsitu/Redditor-or-Robot#readme', '_blank');
   }
 
   onLoginButtonClick() {
