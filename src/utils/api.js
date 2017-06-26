@@ -1,6 +1,6 @@
-const snoowrap = require('snoowrap');
-const randomstring = require('randomstring');
-const Cookies = require('js-cookie');
+import snoowrap from 'snoowrap';
+import randomstring from 'randomstring';
+import Cookies from 'js-cookie';
 
 const DEV_CLIENT_ID = 'VOXTB6cJcmGt8w';
 const PROD_CLIENT_ID = 'fZR5Gbz9a0Odeg';

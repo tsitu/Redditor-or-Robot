@@ -1,5 +1,5 @@
-const webpack = require('webpack');
-const path = require('path');
+import webpack from 'webpack';
+import path from 'path';
 
 const APP_SRC = path.resolve(__dirname, 'src');
 const APP_PUBLIC = path.resolve(__dirname, 'public');

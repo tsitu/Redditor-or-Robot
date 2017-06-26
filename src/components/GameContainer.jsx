@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Snoowrap from 'snoowrap';
 
 import NavHeader from './NavHeader';
 import CommentContainer from './CommentContainer';
+import ResetButton from './ResetButton';
+import HumanButton from './HumanButton';
+import RoboButton from './RoboButton';
 
 import { getHot, getUser, getRandom, getMe } from '../utils/api';
 import ssBotList from '../utils/ssbotlist';
@@ -50,7 +54,7 @@ class GameContainer extends React.Component {
     CONGRATS_THRESHOLD = 265;
     RELOAD_THRESHOLD = 10;
     INCORRECT_ANSWERS = [];
-    REQUESTER = new snoowrap(JSON.parse(localStorage.getItem('auth')));
+    REQUESTER = new Snoowrap(JSON.parse(localStorage.getItem('auth')));
     REQUESTER.config(JSON.parse(localStorage.getItem('config')));
     GUESS_TRACKER = 0;
     GUESS_THRESHOLD = 10;
@@ -310,14 +314,14 @@ function ButtonContainer() {
       case 1:
         incorrectAnswersDisplay =
           (<div>
-            😔 <br />
+            <span role="img" aria-label="Grimace">😔</span> <br />
             <a href={c[0].url} target="_blank">{c[0].user}: {c[0].id}</a>
           </div>);
         break;
       case 2:
         incorrectAnswersDisplay =
           (<div>
-            😔 <br />
+            <span role="img" aria-label="Grimace">😔</span> <br />
             <a href={c[0].url} target="_blank">{c[0].user}: {c[0].id}</a> <br />
             <a href={c[1].url} target="_blank">{c[1].user}: {c[1].id}</a>
           </div>);
@@ -325,7 +329,7 @@ function ButtonContainer() {
       case 3:
         incorrectAnswersDisplay =
           (<div>
-            😔 <br />
+            <span role="img" aria-label="Grimace">😔</span> <br />
             <a href={c[0].url} target="_blank">{c[0].user}: {c[0].id}</a> <br />
             <a href={c[1].url} target="_blank">{c[1].user}: {c[1].id}</a> <br />
             <a href={c[2].url} target="_blank">{c[2].user}: {c[2].id}</a>
@@ -353,71 +357,5 @@ function ButtonContainer() {
     </div>
   );
 }
-
-class ResetButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(e) {
-    e.preventDefault();
-    this.props.onButtonClick();
-  }
-
-  render() {
-    return (
-      <button type="button" id="resetButton" onClick={this.handleClick}>🕹️</button>
-    );
-  }
-}
-
-ResetButton.propTypes = {
-  onButtonClick: PropTypes.func.isRequired,
-};
-
-class HumanButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(e) {
-    e.preventDefault();
-    this.props.onButtonClick('human');
-  }
-
-  render() {
-    return (
-      <button type="button" id="humanButton" onClick={this.handleClick}>🤓</button>
-    );
-  }
-}
-
-HumanButton.propTypes = {
-  onButtonClick: PropTypes.func.isRequired,
-};
-
-class RoboButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(e) {
-    e.preventDefault();
-    this.props.onButtonClick('robot');
-  }
-
-  render() {
-    return (
-      <button type="button" id="roboButton" onClick={this.handleClick}>🤖</button>
-    );
-  }
-}
-
-RoboButton.propTypes = {
-  onButtonClick: PropTypes.func.isRequired,
-};
 
 module.exports = GameContainer;

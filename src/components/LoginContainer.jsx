@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Snoowrap from 'snoowrap';
+import Cookies from 'js-cookie';
 
 import PlayButton from './PlayButton';
 import LoginButton from './LoginButton';
@@ -7,9 +9,11 @@ import HelpButton from './HelpButton';
 
 import { authenticateUser, validateAuth, getMe } from '../utils/api';
 
-const Cookies = require('js-cookie');
-
 class LoginContainer extends React.Component {
+  static onHelpButtonClick() {
+    window.open('https://github.com/tsitu/Redditor-or-Robot#readme', '_blank');
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +57,7 @@ class LoginContainer extends React.Component {
         console.log(reason);
       });
     } else if (!URLToken && authCheck) {
-      const REQUESTER = new snoowrap(JSON.parse(localStorage.getItem('auth')));
+      const REQUESTER = new Snoowrap(JSON.parse(localStorage.getItem('auth')));
       REQUESTER.config(JSON.parse(localStorage.getItem('config')));
       getMe(REQUESTER).then((user) => {
         this.setState({
@@ -68,10 +72,6 @@ class LoginContainer extends React.Component {
 
   onPlayButtonClick() {
     this.props.onPlayButtonClick();
-  }
-
-  onHelpButtonClick() {
-    window.open('https://github.com/tsitu/Redditor-or-Robot#readme', '_blank');
   }
 
   onLoginButtonClick() {
@@ -98,7 +98,7 @@ class LoginContainer extends React.Component {
       </p>) : '';
     return (
       <div id="gameContainer">
-        🤓 - 🤖 <br />
+        <span role="img" aria-label="Nerd">🤓</span> - <span role="img" aria-label="Robot">🤖</span> <br />
         Redditor or Robot? <br /> <br />
         <PlayButton isLoggedIn={this.state.isLoggedIn} onButtonClick={this.onPlayButtonClick} />
         <HelpButton onButtonClick={this.onHelpButtonClick} />

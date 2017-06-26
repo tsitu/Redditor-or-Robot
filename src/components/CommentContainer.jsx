@@ -17,7 +17,12 @@ function CommentContainer() {
 
 function LoadingSpinner() {
   return (
-    <img src="https://github.com/tsitu/Redditor-or-Robot/raw/master/assets/spinner.gif" alt="Spinner" height="42" width="42" />
+    <img
+      src="https://github.com/tsitu/Redditor-or-Robot/raw/master/assets/spinner.gif"
+      alt="Spinner"
+      height="42"
+      width="42"
+    />
   );
 }
 
