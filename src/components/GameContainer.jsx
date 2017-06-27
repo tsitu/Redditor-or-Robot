@@ -7,6 +7,7 @@ import CommentContainer from './CommentContainer';
 import ButtonContainer from './ButtonContainer';
 
 import { getHot, getUser, getRandom, getMe } from '../utils/api';
+import { decrypt } from '../utils/secure';
 import ssBotList from '../utils/ssbotlist';
 import commonBotList from '../utils/commonbotlist';
 import SnuOwnd from '../utils/snuownd';
@@ -52,8 +53,8 @@ class GameContainer extends React.Component {
     CONGRATS_THRESHOLD = 265;
     RELOAD_THRESHOLD = 10;
     INCORRECT_ANSWERS = [];
-    REQUESTER = new Snoowrap(JSON.parse(localStorage.getItem('auth')));
-    REQUESTER.config(JSON.parse(localStorage.getItem('config')));
+    REQUESTER = new Snoowrap(decrypt('auth'));
+    REQUESTER.config(decrypt('config'));
     GUESS_TRACKER = 0;
     GUESS_THRESHOLD = 10;
   }

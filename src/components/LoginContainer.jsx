@@ -8,6 +8,7 @@ import LoginButton from './LoginButton';
 import HelpButton from './HelpButton';
 
 import { authenticateUser, validateAuth, getMe } from '../utils/api';
+import { encrypt, decrypt } from '../utils/secure';
 
 class LoginContainer extends React.Component {
   constructor(props) {
@@ -40,21 +41,18 @@ class LoginContainer extends React.Component {
           accessToken: value.accessToken,
         };
         const config = value.config();
-
-        if (typeof (Storage) !== 'undefined') {
-          localStorage.setItem('auth', JSON.stringify(auth));
-          localStorage.setItem('config', JSON.stringify(config));
-        } else {
-          console.log('No localStorage support.');
-        }
+        encrypt(auth, 'auth');
+        encrypt(config, 'config');
 
         window.location = window.location.href.slice(0, window.location.href.indexOf('?'));
       }, (reason) => {
         console.log(reason);
       });
     } else if (!URLToken && authCheck) {
-      const REQUESTER = new Snoowrap(JSON.parse(localStorage.getItem('auth')));
-      REQUESTER.config(JSON.parse(localStorage.getItem('config')));
+      const dAuth = decrypt('auth');
+      const dConfig = decrypt('config');
+      const REQUESTER = new Snoowrap(dAuth);
+      REQUESTER.config(dConfig);
       getMe(REQUESTER).then((user) => {
         this.setState({
           isLoggedIn: true,

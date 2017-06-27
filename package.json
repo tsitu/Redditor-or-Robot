@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "js-cookie": "^2.1.4",
     "prop-types": "^15.5.10",
     "randomstring": "^1.1.5",

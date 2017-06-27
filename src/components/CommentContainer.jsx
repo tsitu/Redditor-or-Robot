@@ -28,7 +28,7 @@ CommentContainer.propTypes = {
 function LoadingSpinner() {
   return (
     <img
-      src="https://github.com/tsitu/Redditor-or-Robot/raw/master/assets/spinner.gif"
+      src="../assets/spinner.gif"
       alt="Spinner"
       height="42"
       width="42"

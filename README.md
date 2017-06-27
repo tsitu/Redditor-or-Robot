@@ -25,7 +25,7 @@ If, for any reason, you need to completely clear out the permissions for this ga
 2. Navigate [here]() and scroll down until you find "Redditor or Robot?"
 3. Click "revoke access" in the bottom left. It should look similar to the image below:
 
-![revoke](https://github.com/tsitu/Redditor-or-Robot/raw/master/assets/revoke.png)
+![revoke](assets/revoke.png)
 
 ## Technologies
 
