@@ -99,13 +99,12 @@ class GameContainer extends React.Component {
       let urlBuild = null;
       if (RANDOM_COMMENT.link_permalink) {
         urlBuild = RANDOM_COMMENT.link_permalink + RANDOM_COMMENT.id;
-      } else {
-        urlBuild = `https://reddit.com${RANDOM_SUBMISSION.permalink}${RANDOM_COMMENT.id}`;
       }
+
       INCORRECT_ANSWERS.push({
         url: urlBuild,
         id: RANDOM_COMMENT.id,
-        user: RANDOM_COMMENT.author.name,
+        user: RANDOM_COMMENT.author,
       });
     } else {
       console.log('Shenanigans in GameButtonClick');
@@ -192,7 +191,7 @@ class GameContainer extends React.Component {
         el.data.id !== RANDOM_COMMENT.id, // Filter out seen comments
       );
 
-      if (commonBotList.indexOf(RANDOM_COMMENT.author.name) > -1) {
+      if (commonBotList.indexOf(RANDOM_COMMENT.author) > -1) {
         this.handleUpdate();
         return;
       }
