@@ -13,12 +13,9 @@ class PlayButton extends React.Component {
   }
 
   render() {
-    const button = this.props.isLoggedIn ?
-      <button type="button" id="playButton" onClick={this.handleClick}>Play!</button> :
-      <button type="button" id="playButton" onClick={this.handleClick} disabled>Play!</button>;
     return (
       <div>
-        {button}
+        <button type="button" id="playButton" onClick={this.handleClick}>Play!</button>
       </div>
     );
   }
@@ -26,7 +23,6 @@ class PlayButton extends React.Component {
 
 PlayButton.propTypes = {
   onButtonClick: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 module.exports = PlayButton;

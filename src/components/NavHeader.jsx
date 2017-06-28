@@ -24,7 +24,6 @@ class NavHeader extends React.PureComponent {
         <table id="navTable">
           <tbody>
             <tr>
-              <td>/u/{this.props.playerName}</td>
               <td>Score: {this.props.score}</td>
               <td>/r/{this.props.subreddit}</td>
               <td>{heartLives}</td>
@@ -39,7 +38,6 @@ class NavHeader extends React.PureComponent {
 NavHeader.propTypes = {
   numLives: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
-  playerName: PropTypes.string.isRequired,
   subreddit: PropTypes.string.isRequired,
 };
 
