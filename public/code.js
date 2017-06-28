@@ -10969,7 +10969,7 @@ var LoginContainer = function (_React$Component) {
   }, {
     key: 'onHelpButtonClick',
     value: function onHelpButtonClick() {
-      window.open('https://github.com/tsitu/Redditor-or-Robot/blob/gh-pages/README.md#redditor-or-robot--', '_blank');
+      window.open('https://github.com/tsitu/Redditor-or-Robot/blob/master/README.md#redditor-or-robot--', '_blank');
     }
   }, {
     key: 'render',
