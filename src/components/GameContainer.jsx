@@ -15,6 +15,7 @@ let USER_COMMENTS = null;
 let SS_COMMENTS = null;
 let LIFE_TRACKER = null;
 let SS_BOTLISTCOPY = null;
+let SS_TRACKER = null;
 let CONGRATS_THRESHOLD = null;
 let RELOAD_THRESHOLD = null;
 let INCORRECT_ANSWERS = null;
@@ -29,7 +30,6 @@ class GameContainer extends React.Component {
       text: '',
       isLoading: true,
       subredditName: '',
-      userType: '',
       numLives: 3,
       score: 0,
       gameOver: false,
@@ -46,6 +46,7 @@ class GameContainer extends React.Component {
 
     LIFE_TRACKER = 3;
     SS_BOTLISTCOPY = ssBotList;
+    SS_TRACKER = [];
     CONGRATS_THRESHOLD = 265;
     RELOAD_THRESHOLD = 10;
     INCORRECT_ANSWERS = [];
@@ -84,12 +85,14 @@ class GameContainer extends React.Component {
       isLoading: true,
     });
 
-    if (this.state.userType === type) {
+    const isRobot = SS_TRACKER.includes(RANDOM_COMMENT.author);
+
+    if ((isRobot && type === 'robot') || (!isRobot && type === 'human')) {
       this.setState({
         score: this.state.score + 1,
       });
       this.handleUpdate();
-    } else if (this.state.userType !== type) {
+    } else if ((isRobot && type === 'human') || (!isRobot && type === 'robot')) {
       this.setState({
         numLives: this.state.numLives - 1,
         isWrongAnswer: true,
@@ -107,7 +110,7 @@ class GameContainer extends React.Component {
         user: RANDOM_COMMENT.author,
       });
     } else {
-      console.log('Shenanigans in GameButtonClick');
+      console.log("Error in onGameButtonClick");
     }
   }
 
@@ -134,7 +137,6 @@ class GameContainer extends React.Component {
 
     this.setState({
       subredditName: randomSS.subreddit,
-      userType: '',
     });
 
     const hotPromise = fetchComments('sub', randomSS.subreddit).then((value) => {
@@ -171,9 +173,11 @@ class GameContainer extends React.Component {
       return;
     }
 
-    if (USER_COMMENTS.length <= RELOAD_THRESHOLD ||
-            SS_COMMENTS.length <= RELOAD_THRESHOLD ||
-            GUESS_TRACKER >= GUESS_THRESHOLD) {
+    if (
+      USER_COMMENTS.length <= RELOAD_THRESHOLD ||
+      SS_COMMENTS.length <= RELOAD_THRESHOLD ||
+      GUESS_TRACKER >= GUESS_THRESHOLD
+    ) {
       this.setState({
         text: '',
         isLoading: true,
@@ -203,12 +207,12 @@ class GameContainer extends React.Component {
       this.setState({
         text: SnuOwnd.getParser().render(RANDOM_COMMENT.body),
         isLoading: false,
-        userType: 'human',
       });
 
       GUESS_TRACKER += 1;
     } else if (roll === 1) {
       RANDOM_COMMENT = SS_COMMENTS[getRandom(SS_COMMENTS.length)].data;
+      SS_TRACKER.push(RANDOM_COMMENT.author);
       SS_COMMENTS = SS_COMMENTS.filter(el =>
         el.data.id !== RANDOM_COMMENT.id, // Filter out seen comments
       );
@@ -220,7 +224,6 @@ class GameContainer extends React.Component {
       this.setState({
         text: SnuOwnd.getParser().render(RANDOM_COMMENT.body),
         isLoading: false,
-        userType: 'robot',
       });
 
       GUESS_TRACKER += 1;
