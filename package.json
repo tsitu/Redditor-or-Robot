@@ -1,6 +1,6 @@
 {
-  "name": "learningreact",
-  "version": "1.0.0",
+  "name": "redditor-or-robot",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,15 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "crypto-js": "^3.1.9-1",
     "es6-promise": "^4.1.0",
     "isomorphic-fetch": "^2.2.1",
-    "js-cookie": "^2.1.4",
     "prop-types": "^15.5.10",
-    "randomstring": "^1.1.5",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4",
-    "snoowrap": "^1.14.0"
+    "react-dom": "^15.5.4"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
