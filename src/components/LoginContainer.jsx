@@ -17,7 +17,7 @@ class LoginContainer extends React.Component {
   }
 
   onHelpButtonClick() {
-    window.open('https://github.com/tsitu/Redditor-or-Robot#readme', '_blank');
+    window.open('https://github.com/tsitu/Redditor-or-Robot/blob/gh-pages/README.md#redditor-or-robot--', '_blank');
   }
 
   render() {
