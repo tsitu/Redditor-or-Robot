@@ -3,6 +3,7 @@ const path = require('path');
 
 const APP_SRC = path.resolve(__dirname, 'src');
 const APP_PUBLIC = path.resolve(__dirname, 'public');
+const APP_HOST = 'localhost';
 
 const config = {
   entry: `${APP_SRC}/index.jsx`,
@@ -21,8 +22,7 @@ const config = {
     extensions: ['.js', '.jsx'],
   },
   devServer: {
-    // Dynamic IP: below will update occasionally
-    host: '192.168.0.111',
+    host: APP_HOST,
     port: 8080,
   },
 };
