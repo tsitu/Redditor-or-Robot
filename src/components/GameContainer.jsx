@@ -1,5 +1,6 @@
+/* @flow */
+
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import NavHeader from './NavHeader';
 import CommentContainer from './CommentContainer';
@@ -16,15 +17,16 @@ let SS_COMMENTS = null;
 let LIFE_TRACKER = null;
 let SS_BOTLISTCOPY = null;
 let SS_TRACKER = null;
-let CONGRATS_THRESHOLD = null;
-let RELOAD_THRESHOLD = null;
 let INCORRECT_ANSWERS = null;
 let RANDOM_COMMENT = null;
 let GUESS_TRACKER = null;
-let GUESS_THRESHOLD = null;
+
+const CONGRATS_THRESHOLD = 265;
+const RELOAD_THRESHOLD = 10;
+const GUESS_THRESHOLD = 10;
 
 class GameContainer extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       text: '',
@@ -45,13 +47,23 @@ class GameContainer extends React.Component {
     this.onGameButtonClick = this.onGameButtonClick.bind(this);
 
     LIFE_TRACKER = 3;
+    GUESS_TRACKER = 0;
     SS_BOTLISTCOPY = ssBotList;
     SS_TRACKER = [];
-    CONGRATS_THRESHOLD = 265;
-    RELOAD_THRESHOLD = 10;
     INCORRECT_ANSWERS = [];
-    GUESS_TRACKER = 0;
-    GUESS_THRESHOLD = 10;
+  }
+
+  state: {
+    text: string,
+    isLoading: boolean,
+    subredditName: string,
+    numLives: number,
+    score: number,
+    gameOver: boolean,
+    isGoodJob: boolean,
+    isWrongAnswer: boolean,
+    isCongrats: boolean,
+    playerName: string,
   }
 
   componentDidMount() {
@@ -65,11 +77,13 @@ class GameContainer extends React.Component {
     }
   }
 
+  onResetButtonClick: () => void;
   onResetButtonClick() {
     this.props.onResetButtonClick();
   }
 
-  onGameButtonClick(type) {
+  onGameButtonClick: () => void;
+  onGameButtonClick(type: string) {
     if (!USER_COMMENTS || !SS_COMMENTS) {
       console.log('Null object[s], please refresh');
       return;
@@ -110,10 +124,11 @@ class GameContainer extends React.Component {
         user: RANDOM_COMMENT.author,
       });
     } else {
-      console.log("Error in onGameButtonClick");
+      console.log('Error in onGameButtonClick');
     }
   }
 
+  reloadComments: () => void;
   reloadComments() {
     if (this.state.numLives <= 0) {
       this.setState({
@@ -167,6 +182,7 @@ class GameContainer extends React.Component {
     });
   }
 
+  handleUpdate: () => void;
   handleUpdate() {
     if (!USER_COMMENTS || !SS_COMMENTS) {
       console.log('Null object[s], please refresh');
@@ -230,6 +246,10 @@ class GameContainer extends React.Component {
     }
   }
 
+  props: {
+    onResetButtonClick: Function,
+  }
+
   render() {
     const buttonCommentContainer = this.state.gameOver ?
       (<div>
@@ -268,9 +288,5 @@ class GameContainer extends React.Component {
     );
   }
 }
-
-GameContainer.propTypes = {
-  onResetButtonClick: PropTypes.func.isRequired,
-};
 
 module.exports = GameContainer;

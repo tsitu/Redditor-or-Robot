@@ -1,15 +1,21 @@
+/* @flow */
+
 import React from 'react';
-import PropTypes from 'prop-types';
 
 class PlayButton extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(e) {
+  handleClick: () => void;
+  handleClick(e: MouseEvent) {
     e.preventDefault();
     this.props.onButtonClick();
+  }
+
+  props: {
+    onButtonClick: Function,
   }
 
   render() {
@@ -20,9 +26,5 @@ class PlayButton extends React.Component {
     );
   }
 }
-
-PlayButton.propTypes = {
-  onButtonClick: PropTypes.func.isRequired,
-};
 
 module.exports = PlayButton;

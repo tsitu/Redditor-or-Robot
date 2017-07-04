@@ -1,10 +1,12 @@
+/* @flow */
+
 import React from 'react';
 
 import GameContainer from './GameContainer';
 import LoginContainer from './LoginContainer';
 
 class App extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       game: () => <LoginContainer onPlayButtonClick={this.resetGame} />,
@@ -13,6 +15,12 @@ class App extends React.Component {
     this.resetGame = this.resetGame.bind(this);
   }
 
+  state: {
+    game: Function,
+  };
+
+  /* covariant property incompatible with contravariant use */
+  resetGame: () => void;
   resetGame() {
     this.setState({
       game: () => <GameContainer onResetButtonClick={this.resetGame} />,
