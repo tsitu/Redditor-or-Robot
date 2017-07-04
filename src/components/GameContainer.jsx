@@ -1,6 +1,7 @@
 /* @flow */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import NavHeader from './NavHeader';
 import CommentContainer from './CommentContainer';
@@ -288,5 +289,9 @@ class GameContainer extends React.Component {
     );
   }
 }
+
+GameContainer.propTypes = {
+  onResetButtonClick: PropTypes.func.isRequired,
+};
 
 module.exports = GameContainer;

@@ -1,6 +1,7 @@
 /* @flow */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class NavHeader extends React.PureComponent {
   props: {
@@ -41,5 +42,11 @@ class NavHeader extends React.PureComponent {
     );
   }
 }
+
+NavHeader.propTypes = {
+  numLives: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
+  subreddit: PropTypes.string.isRequired,
+};
 
 module.exports = NavHeader;

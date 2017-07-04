@@ -1,6 +1,7 @@
 /* @flow */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class PlayButton extends React.Component {
   constructor(props: any) {
@@ -26,5 +27,9 @@ class PlayButton extends React.Component {
     );
   }
 }
+
+PlayButton.propTypes = {
+  onButtonClick: PropTypes.func.isRequired,
+};
 
 module.exports = PlayButton;

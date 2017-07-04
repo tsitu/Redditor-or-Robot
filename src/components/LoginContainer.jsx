@@ -1,6 +1,7 @@
 /* @flow */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import PlayButton from './PlayButton';
 import HelpButton from './HelpButton';
@@ -38,5 +39,9 @@ class LoginContainer extends React.Component {
     );
   }
 }
+
+LoginContainer.propTypes = {
+  onPlayButtonClick: PropTypes.func.isRequired,
+};
 
 module.exports = LoginContainer;

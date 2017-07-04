@@ -1,6 +1,7 @@
 /* @flow */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class ResetButton extends React.Component {
   constructor(props: any) {
@@ -26,5 +27,9 @@ class ResetButton extends React.Component {
     );
   }
 }
+
+ResetButton.propTypes = {
+  onButtonClick: PropTypes.func.isRequired,
+};
 
 module.exports = ResetButton;

@@ -1,6 +1,7 @@
 /* @flow */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class RoboButton extends React.Component {
   constructor(props: any) {
@@ -26,5 +27,9 @@ class RoboButton extends React.Component {
     );
   }
 }
+
+RoboButton.propTypes = {
+  onButtonClick: PropTypes.func.isRequired,
+};
 
 module.exports = RoboButton;

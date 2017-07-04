@@ -1,6 +1,7 @@
 /* @flow */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import ResetButton from './ResetButton';
 import HumanButton from './HumanButton';
@@ -75,5 +76,18 @@ class ButtonContainer extends React.PureComponent {
     );
   }
 }
+
+ButtonContainer.defaultProps = {
+  incorrectAnswers: [],
+  isCongrats: false,
+};
+
+ButtonContainer.propTypes = {
+  gameOver: PropTypes.bool.isRequired,
+  incorrectAnswers: PropTypes.arrayOf(PropTypes.object),
+  isCongrats: PropTypes.bool,
+  onResetButtonClick: PropTypes.func.isRequired,
+  onGameButtonClick: PropTypes.func.isRequired,
+};
 
 module.exports = ButtonContainer;

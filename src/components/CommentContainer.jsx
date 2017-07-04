@@ -1,6 +1,7 @@
 /* @flow */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class CommentContainer extends React.PureComponent {
   props: {
@@ -25,6 +26,13 @@ class CommentContainer extends React.PureComponent {
     );
   }
 }
+
+CommentContainer.propTypes = {
+  isGoodJob: PropTypes.bool.isRequired,
+  isWrongAnswer: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  text: PropTypes.string.isRequired,
+};
 
 function LoadingSpinner() {
   return (
