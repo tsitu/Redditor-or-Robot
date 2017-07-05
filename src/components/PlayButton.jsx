@@ -22,7 +22,7 @@ class PlayButton extends React.Component {
   render() {
     return (
       <div>
-        <button type="button" id="playButton" onClick={this.handleClick}>Play!</button>
+        <button type="button" id="playButton" onClick={this.handleClick}>Play</button>
       </div>
     );
   }

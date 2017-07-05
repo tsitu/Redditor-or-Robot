@@ -13,14 +13,14 @@ import commonBotList from '../utils/commonbotlist';
 import SnuOwnd from '../utils/snuownd';
 
 // Globals
-let USER_COMMENTS = null;
-let SS_COMMENTS = null;
-let LIFE_TRACKER = null;
-let SS_BOTLISTCOPY = null;
-let SS_TRACKER = null;
-let INCORRECT_ANSWERS = null;
-let RANDOM_COMMENT = null;
-let GUESS_TRACKER = null;
+let USER_COMMENTS = {};
+let SS_COMMENTS = {};
+let RANDOM_COMMENT = {};
+let SS_BOTLISTCOPY = [];
+let SS_TRACKER = [];
+let INCORRECT_ANSWERS = [];
+let LIFE_TRACKER = 3;
+let GUESS_TRACKER = 0;
 
 const CONGRATS_THRESHOLD = 265;
 const RELOAD_THRESHOLD = 10;
@@ -72,7 +72,7 @@ class GameContainer extends React.Component {
   }
 
   componentDidUpdate() {
-    if (LIFE_TRACKER && (LIFE_TRACKER !== this.state.numLives)) {
+    if (LIFE_TRACKER !== this.state.numLives) {
       LIFE_TRACKER = this.state.numLives;
       this.reloadComments();
     }
@@ -252,22 +252,20 @@ class GameContainer extends React.Component {
   }
 
   render() {
+    const buttonContainer =
+      (<ButtonContainer
+        gameOver={this.state.gameOver}
+        isCongrats={this.state.isCongrats}
+        onResetButtonClick={this.onResetButtonClick}
+        onGameButtonClick={this.onGameButtonClick}
+        incorrectAnswers={INCORRECT_ANSWERS}
+      />);
     const buttonCommentContainer = this.state.gameOver ?
       (<div>
-        <ButtonContainer
-          gameOver={this.state.gameOver}
-          isCongrats={this.state.isCongrats}
-          onResetButtonClick={this.onResetButtonClick}
-          onGameButtonClick={this.onGameButtonClick}
-          incorrectAnswers={INCORRECT_ANSWERS}
-        />
+        {buttonContainer}
       </div>) :
       (<div>
-        <ButtonContainer
-          gameOver={this.state.gameOver}
-          onResetButtonClick={this.onResetButtonClick}
-          onGameButtonClick={this.onGameButtonClick}
-        />
+        {buttonContainer}
         <CommentContainer
           text={this.state.text}
           isLoading={this.state.isLoading}

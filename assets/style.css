@@ -1,31 +1,39 @@
 #gameContainer {
-    text-align: center;
-    font-size: 2vw;
-    margin: 1em auto;
-    height: auto;
-    width: 75%;
-    background-color: #f2f2f2;
-    border: 3px solid;
-    border-radius: 15px;
-    border-color: #c4c4c4;
-    padding: 20px;
+  text-align: center;
+  font-size: 2vw;
+  margin: 1em auto;
+  height: auto;
+  width: 75%;
+  background-color: #f2f2f2;
+  border: 3px solid;
+  border-radius: 15px;
+  border-color: #c4c4c4;
+  padding: 20px;
 }
 
 #humanButton, #roboButton, #resetButton {
-    font-size: 36px;
-    width: 10vw;
+  font-size: 36px;
+  width: 10vw;
 }
 
 #playButton, #helpButton {
-    font-size: 32px;
-    width: 15vw;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 30px;
+  width: 15vw;
+  margin: 5px;
 }
 
 #dangerousHTML {
-    text-align: center;
+  text-align: center;
 }
 
 #navTable {
-    width: 100%;
-    table-layout: fixed;
+  width: 100%;
+  table-layout: fixed;
+}
+
+#gameTitle {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 32px;
+  margin: 20px;
 }

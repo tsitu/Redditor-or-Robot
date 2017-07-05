@@ -21,7 +21,7 @@ class LoginContainer extends React.Component {
 
   onHelpButtonClick: () => void;
   onHelpButtonClick() {
-    window.open('https://github.com/tsitu/Redditor-or-Robot/blob/master/README.md#redditor-or-robot--', '_blank');
+    window.open('https://github.com/tsitu/Redditor-or-Robot/blob/master/README.md', '_blank');
   }
 
   props: {
@@ -31,9 +31,9 @@ class LoginContainer extends React.Component {
   render() {
     return (
       <div id="gameContainer">
-        <span role="img" aria-label="Nerd">🤓</span> - <span role="img" aria-label="Robot">🤖</span> <br />
-        Redditor or Robot? <br /> <br />
-        <PlayButton onButtonClick={this.onPlayButtonClick} /> <br />
+        <span role="img" aria-label="Nerd">🤓</span> -:- <span role="img" aria-label="Robot">🤖</span> <br />
+        <p id="gameTitle">Redditor or Robot?</p>
+        <PlayButton onButtonClick={this.onPlayButtonClick} />
         <HelpButton onButtonClick={this.onHelpButtonClick} />
       </div>
     );

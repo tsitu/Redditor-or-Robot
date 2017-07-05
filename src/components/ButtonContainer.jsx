@@ -8,18 +8,13 @@ import HumanButton from './HumanButton';
 import RoboButton from './RoboButton';
 
 class ButtonContainer extends React.PureComponent {
-  static defaultProps = {
-    incorrectAnswers: [],
-    isCongrats: false,
-  }
-
   props: {
     gameOver: boolean,
     incorrectAnswers: Array<Object>, // needs precision
     isCongrats: boolean,
     onResetButtonClick: Function,
     onGameButtonClick: Function,
-  }
+  };
 
   render() {
     let incorrectAnswersDisplay = null;
@@ -77,15 +72,10 @@ class ButtonContainer extends React.PureComponent {
   }
 }
 
-ButtonContainer.defaultProps = {
-  incorrectAnswers: [],
-  isCongrats: false,
-};
-
 ButtonContainer.propTypes = {
   gameOver: PropTypes.bool.isRequired,
-  incorrectAnswers: PropTypes.arrayOf(PropTypes.object),
-  isCongrats: PropTypes.bool,
+  incorrectAnswers: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isCongrats: PropTypes.bool.isRequired,
   onResetButtonClick: PropTypes.func.isRequired,
   onGameButtonClick: PropTypes.func.isRequired,
 };
