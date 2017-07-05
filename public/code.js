@@ -10117,6 +10117,9 @@ var App = function (_React$Component) {
     return _this;
   }
 
+  /* covariant property incompatible with contravariant use */
+
+
   _createClass(App, [{
     key: 'resetGame',
     value: function resetGame() {
@@ -10341,15 +10344,10 @@ var ButtonContainer = function (_React$PureComponent) {
   return ButtonContainer;
 }(_react2.default.PureComponent);
 
-ButtonContainer.defaultProps = {
-  incorrectAnswers: [],
-  isCongrats: false
-};
-
 ButtonContainer.propTypes = {
   gameOver: _propTypes2.default.bool.isRequired,
-  incorrectAnswers: _propTypes2.default.arrayOf(_propTypes2.default.object),
-  isCongrats: _propTypes2.default.bool,
+  incorrectAnswers: _propTypes2.default.arrayOf(_propTypes2.default.object).isRequired,
+  isCongrats: _propTypes2.default.bool.isRequired,
   onResetButtonClick: _propTypes2.default.func.isRequired,
   onGameButtonClick: _propTypes2.default.func.isRequired
 };
@@ -10499,17 +10497,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 // Globals
-var USER_COMMENTS = null;
-var SS_COMMENTS = null;
-var LIFE_TRACKER = null;
-var SS_BOTLISTCOPY = null;
-var SS_TRACKER = null;
-var CONGRATS_THRESHOLD = null;
-var RELOAD_THRESHOLD = null;
-var INCORRECT_ANSWERS = null;
-var RANDOM_COMMENT = null;
-var GUESS_TRACKER = null;
-var GUESS_THRESHOLD = null;
+var USER_COMMENTS = {};
+var SS_COMMENTS = {};
+var RANDOM_COMMENT = {};
+var SS_BOTLISTCOPY = [];
+var SS_TRACKER = [];
+var INCORRECT_ANSWERS = [];
+var LIFE_TRACKER = 3;
+var GUESS_TRACKER = 0;
+
+var CONGRATS_THRESHOLD = 265;
+var RELOAD_THRESHOLD = 10;
+var GUESS_THRESHOLD = 10;
 
 var GameContainer = function (_React$Component) {
   _inherits(GameContainer, _React$Component);
@@ -10538,13 +10537,10 @@ var GameContainer = function (_React$Component) {
     _this.onGameButtonClick = _this.onGameButtonClick.bind(_this);
 
     LIFE_TRACKER = 3;
+    GUESS_TRACKER = 0;
     SS_BOTLISTCOPY = _ssbotlist2.default;
     SS_TRACKER = [];
-    CONGRATS_THRESHOLD = 265;
-    RELOAD_THRESHOLD = 10;
     INCORRECT_ANSWERS = [];
-    GUESS_TRACKER = 0;
-    GUESS_THRESHOLD = 10;
     return _this;
   }
 
@@ -10556,7 +10552,7 @@ var GameContainer = function (_React$Component) {
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
-      if (LIFE_TRACKER && LIFE_TRACKER !== this.state.numLives) {
+      if (LIFE_TRACKER !== this.state.numLives) {
         LIFE_TRACKER = this.state.numLives;
         this.reloadComments();
       }
@@ -10609,7 +10605,7 @@ var GameContainer = function (_React$Component) {
           user: RANDOM_COMMENT.author
         });
       } else {
-        console.log("Error in onGameButtonClick");
+        console.log('Error in onGameButtonClick');
       }
     }
   }, {
@@ -10734,24 +10730,21 @@ var GameContainer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var buttonContainer = _react2.default.createElement(_ButtonContainer2.default, {
+        gameOver: this.state.gameOver,
+        isCongrats: this.state.isCongrats,
+        onResetButtonClick: this.onResetButtonClick,
+        onGameButtonClick: this.onGameButtonClick,
+        incorrectAnswers: INCORRECT_ANSWERS
+      });
       var buttonCommentContainer = this.state.gameOver ? _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_ButtonContainer2.default, {
-          gameOver: this.state.gameOver,
-          isCongrats: this.state.isCongrats,
-          onResetButtonClick: this.onResetButtonClick,
-          onGameButtonClick: this.onGameButtonClick,
-          incorrectAnswers: INCORRECT_ANSWERS
-        })
+        buttonContainer
       ) : _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_ButtonContainer2.default, {
-          gameOver: this.state.gameOver,
-          onResetButtonClick: this.onResetButtonClick,
-          onGameButtonClick: this.onGameButtonClick
-        }),
+        buttonContainer,
         _react2.default.createElement(_CommentContainer2.default, {
           text: this.state.text,
           isLoading: this.state.isLoading,
@@ -10969,7 +10962,7 @@ var LoginContainer = function (_React$Component) {
   }, {
     key: 'onHelpButtonClick',
     value: function onHelpButtonClick() {
-      window.open('https://github.com/tsitu/Redditor-or-Robot/blob/master/README.md#redditor-or-robot--', '_blank');
+      window.open('https://github.com/tsitu/Redditor-or-Robot/blob/master/README.md', '_blank');
     }
   }, {
     key: 'render',
@@ -10982,7 +10975,7 @@ var LoginContainer = function (_React$Component) {
           { role: 'img', 'aria-label': 'Nerd' },
           '\uD83E\uDD13'
         ),
-        ' - ',
+        ' -:- ',
         _react2.default.createElement(
           'span',
           { role: 'img', 'aria-label': 'Robot' },
@@ -10990,13 +10983,12 @@ var LoginContainer = function (_React$Component) {
         ),
         ' ',
         _react2.default.createElement('br', null),
-        'Redditor or Robot? ',
-        _react2.default.createElement('br', null),
-        ' ',
-        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+          'p',
+          { id: 'gameTitle' },
+          'Redditor or Robot?'
+        ),
         _react2.default.createElement(_PlayButton2.default, { onButtonClick: this.onPlayButtonClick }),
-        ' ',
-        _react2.default.createElement('br', null),
         _react2.default.createElement(_HelpButton2.default, { onButtonClick: this.onHelpButtonClick })
       );
     }
@@ -11163,7 +11155,7 @@ var PlayButton = function (_React$Component) {
         _react2.default.createElement(
           'button',
           { type: 'button', id: 'playButton', onClick: this.handleClick },
-          'Play!'
+          'Play'
         )
       );
     }
@@ -11356,10 +11348,12 @@ function fetchComments(type, name) {
   var url = null;
   if (type === 'user') {
     url = 'https://www.reddit.com/user/';
+    url = url.concat(name, '/comments.json');
   } else if (type === 'sub') {
     url = 'https://www.reddit.com/r/';
+    url = url.concat(name, '/comments.json');
   }
-  url = url.concat(name, '/comments.json');
+
   return (0, _isomorphicFetch2.default)(url).then(function (response) {
     if (response.status >= 400) {
       throw new Error('Bad response in fetchComments');

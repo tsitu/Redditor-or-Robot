@@ -10,7 +10,7 @@ The current subreddit is reloaded when you guess incorrectly or after you've suc
 
 For the purposes of consistency and simplicity, a bot is defined as one that comments solely on /r/SubredditSimulator. If you encounter a bot masquerading as a human, please submit an [issue](https://github.com/tsitu/Redditor-or-Robot/issues/new) so it can be added to this [list](https://github.com/tsitu/Redditor-or-Robot/blob/master/src/utils/commonbotlist.js).
 
-## Setup Instructions
+## Running Locally
 
 1. `git clone https://github.com/tsitu/Redditor-or-Robot.git`
 2. `npm install`
@@ -30,13 +30,32 @@ parserOptions: {
   },
 },
 ```
-3. Comment out any stray 'ecmaFeatures' objects
-4. Install the [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) extension and reload VSCode
-5. Modify _.eslintrc.json_ as necessary
+3. Install the [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) extension and reload VSCode
+4. Modify _.eslintrc.json_ if necessary
+
+Add the following to your local _User\settings.json_:
+```javascript
+"eslint.validate": [
+  "javascript",
+  "javascriptreact",
+  "html"
+],
+```
+
+To use Flow with VSCode:
+1. `npm install -g flow-bin eslint-plugin-flowtype`
+2. Install the [Flow Language Support](https://marketplace.visualstudio.com/items?itemName=flowtype.flow-for-vscode) extension and reload VSCode
+3. Modify _src/.flowconfig_ if necessary and add `/* @flow */` to the top of new files that require type checking
+
+Add the following to your local _User\settings.json_:
+```javascript
+"flow.pathToFlow": "{PATH_TO_FLOW_BIN}\\{FLOW_VERSION}\\flow.exe",
+"javascript.validate.enable": false,
+```
 
 To build/minify:
-1. `./node_modules/.bin/webpack`
-2. `npm install -g uglify-es uglify-js`
+1. `npm install -g uglify-es uglify-js`
+2. `./node_modules/.bin/webpack`
 3. `uglifyjs -c -m --comments -b beautify=false,ascii_only=true -o public/code.min.js -- public/code.js`
 
 ## Technologies
@@ -44,6 +63,5 @@ To build/minify:
 * [React](https://github.com/facebook/react)
 * [Webpack](https://github.com/webpack/webpack)
 * [Babel](https://github.com/babel/babel)
-* [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch)
 * [ESLint](https://github.com/eslint/eslint)
 * [Flow](https://github.com/facebook/flow)
