@@ -20,7 +20,7 @@ For the purposes of consistency and simplicity, a bot is defined as one that com
 
 ## Development Environment
 
-To use ESLint with VSCode:
+### To use ESLint with VSCode
 1. `npm install -g eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react`
 2. Open _eslint-config-airbnb/rules/react.js_ and _react-a11y.js_ in 'npm/node_modules' (via %appdata% on Windows) and make sure that 'ecmaFeatures' is wrapped in 'parserOptions' like so:
 ```javascript
@@ -30,10 +30,9 @@ parserOptions: {
   },
 },
 ```
-3. Install the [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) extension and reload VSCode
-4. Modify _.eslintrc.json_ if necessary
-
-Add the following to your local _User\settings.json_:
+3. Install the [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) extension and reload VSCode.
+4. Modify _.eslintrc.json_ if necessary.
+5. Add the following to your local _User\settings.json_:
 ```javascript
 "eslint.validate": [
   "javascript",
@@ -42,18 +41,17 @@ Add the following to your local _User\settings.json_:
 ],
 ```
 
-To use Flow with VSCode:
+### To use Flow with VSCode
 1. `npm install -g flow-bin eslint-plugin-flowtype`
-2. Install the [Flow Language Support](https://marketplace.visualstudio.com/items?itemName=flowtype.flow-for-vscode) extension and reload VSCode
-3. Modify _src/.flowconfig_ if necessary and add `/* @flow */` to the top of new files that require type checking
-
-Add the following to your local _User\settings.json_:
+2. Install the [Flow Language Support](https://marketplace.visualstudio.com/items?itemName=flowtype.flow-for-vscode) extension and reload VSCode.
+3. Modify _src/.flowconfig_ if necessary and add `/* @flow */` to the top of new files that require type checking.
+4. Add the following to your local _User\settings.json_:
 ```javascript
 "flow.pathToFlow": "{PATH_TO_FLOW_BIN}\\{FLOW_VERSION}\\flow.exe",
 "javascript.validate.enable": false,
 ```
 
-To build/minify:
+### To build/minify
 1. `npm install -g uglify-es uglify-js`
 2. `./node_modules/.bin/webpack`
 3. `uglifyjs -c -m --comments -b beautify=false,ascii_only=true -o public/code.min.js -- public/code.js`
