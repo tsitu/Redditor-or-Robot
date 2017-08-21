@@ -1,17 +1,21 @@
 {
   "name": "redditor-or-robot",
-  "version": "0.1.0",
-  "description": "",
+  "version": "1.0.0",
+  "description": "A Reddit API Game",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --progress --colors --inline --hot",
-    
     "webpack": "./node_modules/.bin/webpack",
     "uglify": "uglifyjs -c -m --comments -b beautify=false,ascii_only=true -o build/code.min.js -- build/code.js",
-    "build": "npm-run-all webpack uglify"
+    "build": "npm run webpack && npm run uglify"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsitu/Redditor-or-Robot.git"
+  },
+  "author": "Tran Situ",
+  "homepage": "https://tsitu.github.io/Redditor-or-Robot/",
   "license": "ISC",
   "dependencies": {
     "es6-promise": "^4.1.0",
@@ -27,7 +31,6 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react": "^6.24.1",
-    "npm-run-all": "^4.0.2",
     "webpack": "^2.6.1",
     "webpack-dev-server": "^2.4.5"
   },
