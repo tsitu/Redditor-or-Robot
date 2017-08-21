@@ -2,15 +2,15 @@ const webpack = require('webpack');
 const path = require('path');
 
 const APP_SRC = path.resolve(__dirname, 'src');
-const APP_PUBLIC = path.resolve(__dirname, 'public');
+const APP_BUILD = path.resolve(__dirname, 'build');
 const APP_HOST = 'localhost';
 
 const config = {
   entry: `${APP_SRC}/index.jsx`,
   output: {
-    path: APP_PUBLIC,
+    path: APP_BUILD,
     filename: 'code.js',
-    publicPath: '/public/',
+    publicPath: '/build/',
   },
   module: {
     loaders: [{
