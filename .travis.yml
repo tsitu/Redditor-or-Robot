@@ -4,6 +4,7 @@ script:
  - npm run build
 
 before_install:
+ - chmod +x node_modules/.bin/webpack
  - chmod +x deploy.sh
  - npm install -g uglify-es uglify-js
 
