@@ -15,7 +15,7 @@ For the purposes of consistency and simplicity, a bot is defined as one that com
 1. `git clone https://github.com/tsitu/Redditor-or-Robot.git`
 2. `npm install`
 3. Change APP\_HOST in _webpack.config.js_ to your local IPv4 address or leave it as 'localhost'
-4. Change 'code.min.js' to 'code.js' in _index.html_
+4. Change 'build/code.min.js' to 'build/code.js' in _index.html_
 5. `npm start`
 
 ## Development Environment
@@ -51,10 +51,9 @@ parserOptions: {
 "javascript.validate.enable": false,
 ```
 
-### To build/minify
-1. `npm install -g uglify-es uglify-js`
-2. `./node_modules/.bin/webpack`
-3. `uglifyjs -c -m --comments -b beautify=false,ascii_only=true -o public/code.min.js -- public/code.js`
+### To build + minify
+1. `npm install -g uglify-es uglify-js` (if not already installed)
+2. `npm run build`
 
 ## Technologies
 
