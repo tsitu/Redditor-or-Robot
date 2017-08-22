@@ -1,4 +1,4 @@
-# [Redditor or Robot?](https://tsitu.github.io/Redditor-or-Robot/) &middot; [![Issues Welcome](https://img.shields.io/badge/issues-welcome-brightgreen.svg)](https://github.com/tsitu/Redditor-or-Robot/issues) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/tsitu/Redditor-or-Robot/pulls)
+# [Redditor or Robot?](https://tsitu.github.io/Redditor-or-Robot/) &middot; [![Build Status](https://travis-ci.org/tsitu/Redditor-or-Robot.svg?branch=master)](https://travis-ci.org/tsitu/Redditor-or-Robot)
 
 ## Introduction
 
