@@ -27,14 +27,14 @@ class ButtonContainer extends React.PureComponent {
         case 1:
           incorrectAnswersDisplay =
             (<div>
-              <span role="img" aria-label="Grimace">😔</span> <br />
+              <span role="img" aria-label="Pensive">😔</span> <br />
               <a href={c[0].url} target="_blank">{c[0].user}: {c[0].id}</a>
             </div>);
           break;
         case 2:
           incorrectAnswersDisplay =
             (<div>
-              <span role="img" aria-label="Grimace">😔</span> <br />
+              <span role="img" aria-label="Pensive">😔</span> <br />
               <a href={c[0].url} target="_blank">{c[0].user}: {c[0].id}</a> <br />
               <a href={c[1].url} target="_blank">{c[1].user}: {c[1].id}</a>
             </div>);
@@ -42,7 +42,7 @@ class ButtonContainer extends React.PureComponent {
         case 3:
           incorrectAnswersDisplay =
             (<div>
-              <span role="img" aria-label="Grimace">😔</span> <br />
+              <span role="img" aria-label="Pensive">😔</span> <br />
               <a href={c[0].url} target="_blank">{c[0].user}: {c[0].id}</a> <br />
               <a href={c[1].url} target="_blank">{c[1].user}: {c[1].id}</a> <br />
               <a href={c[2].url} target="_blank">{c[2].user}: {c[2].id}</a>

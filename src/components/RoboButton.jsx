@@ -22,7 +22,7 @@ class RoboButton extends React.Component {
   render() {
     return (
       <button type="button" id="roboButton" onClick={this.handleClick}>
-        <span role="img" aria-label="Robot">🤖</span>
+        <span role="img" aria-label="Robot">💻</span>
       </button>
     );
   }

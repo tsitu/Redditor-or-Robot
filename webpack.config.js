@@ -6,7 +6,7 @@ const APP_BUILD = path.resolve(__dirname, 'build');
 const APP_HOST = 'localhost';
 
 const config = {
-  entry: `${APP_SRC}/index.jsx`,
+  entry: ['babel-polyfill', `${APP_SRC}/index.jsx`],
   output: {
     path: APP_BUILD,
     filename: 'code.js',

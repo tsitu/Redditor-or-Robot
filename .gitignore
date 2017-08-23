@@ -1,3 +1,4 @@
+build/
 dev/
-src/components/demo/
 .eslintrc
+src/components/demo/

@@ -10,6 +10,7 @@ const commonBotList = [
   'Thimotron',
   'DJ_Spam',
   'imguralbumbot',
+  'LocationBot',
   //
 ];
 
