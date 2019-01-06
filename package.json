@@ -41,5 +41,6 @@
       "react",
       "flow"
     ]
-  }
+  },
+  "eslintIgnore": ["src/utils/snuOwnd.js"]
 }

@@ -8,9 +8,9 @@ import CommentContainer from './CommentContainer';
 import ButtonContainer from './ButtonContainer';
 
 import { getRandom, fetchComments } from '../utils/api';
-import ssBotList from '../utils/ssbotlist';
-import commonBotList from '../utils/commonbotlist';
-import SnuOwnd from '../utils/snuownd';
+import ssBotList from '../utils/ssBotList';
+import commonBotList from '../utils/commonBotList';
+import SnuOwnd from '../utils/snuOwnd';
 
 // Globals
 let USER_COMMENTS = {};
