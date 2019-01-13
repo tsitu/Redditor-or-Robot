@@ -1,4 +1,5 @@
 # [Redditor or Robot?](https://tsitu.github.io/Redditor-or-Robot/) &middot; [![Build Status](https://travis-ci.org/tsitu/Redditor-or-Robot.svg?branch=master)](https://travis-ci.org/tsitu/Redditor-or-Robot)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftsitu%2FRedditor-or-Robot.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftsitu%2FRedditor-or-Robot?ref=badge_shield)
 
 ## Introduction
 
@@ -62,3 +63,7 @@ parserOptions: {
 * [Babel](https://github.com/babel/babel)
 * [ESLint](https://github.com/eslint/eslint)
 * [Flow](https://github.com/facebook/flow)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftsitu%2FRedditor-or-Robot.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftsitu%2FRedditor-or-Robot?ref=badge_large)
