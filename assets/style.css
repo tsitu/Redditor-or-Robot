@@ -54,3 +54,13 @@
     opacity: 0;
   }
 }
+
+.table__answers {
+  font-size: 1.5vw;
+  margin: auto;
+}
+
+.table__answers tbody td {
+  vertical-align: top;
+  padding: 10px;
+}

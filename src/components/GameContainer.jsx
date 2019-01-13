@@ -19,6 +19,7 @@ let SS_COMMENTS = {};
 let RANDOM_COMMENT = {};
 let SS_BOTLISTCOPY = [];
 let SS_TRACKER = [];
+let CORRECT_ANSWERS = [];
 let INCORRECT_ANSWERS = [];
 let LIFE_TRACKER = 3;
 let GUESS_TRACKER = 0;
@@ -54,6 +55,7 @@ class GameContainer extends React.Component {
     GUESS_TRACKER = 0;
     SS_BOTLISTCOPY = ssBotList;
     SS_TRACKER = [];
+    CORRECT_ANSWERS = [];
     INCORRECT_ANSWERS = [];
   }
 
@@ -109,11 +111,24 @@ class GameContainer extends React.Component {
 
     const isRobot = SS_TRACKER.includes(RANDOM_COMMENT.author);
 
+    // Add precise comment permalinks
+    let urlBuild = null;
+    if (RANDOM_COMMENT.link_permalink) {
+      urlBuild = RANDOM_COMMENT.link_permalink + RANDOM_COMMENT.id;
+    }
+
     if ((isRobot && type === 'robot') || (!isRobot && type === 'human')) {
       this.setState({
         score: this.state.score + 1,
         scoreAnimation: true,
       });
+
+      CORRECT_ANSWERS.push({
+        url: urlBuild,
+        id: RANDOM_COMMENT.id,
+        user: RANDOM_COMMENT.author,
+      });
+
       this.handleUpdate();
     } else if ((isRobot && type === 'human') || (!isRobot && type === 'robot')) {
       this.setState({
@@ -121,12 +136,6 @@ class GameContainer extends React.Component {
         isWrongAnswer: true,
         lifeAnimation: true,
       });
-
-      // Add precise comment permalinks
-      let urlBuild = null;
-      if (RANDOM_COMMENT.link_permalink) {
-        urlBuild = RANDOM_COMMENT.link_permalink + RANDOM_COMMENT.id;
-      }
 
       INCORRECT_ANSWERS.push({
         url: urlBuild,
@@ -267,6 +276,7 @@ class GameContainer extends React.Component {
         isCongrats={this.state.isCongrats}
         onResetButtonClick={this.onResetButtonClick}
         onGameButtonClick={this.onGameButtonClick}
+        correctAnswers={CORRECT_ANSWERS}
         incorrectAnswers={INCORRECT_ANSWERS}
       />);
     const buttonCommentContainer = this.state.gameOver ?
