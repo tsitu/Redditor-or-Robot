@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import NavHeader from './NavHeader';
 import CommentContainer from './CommentContainer';
 import ButtonContainer from './ButtonContainer';
+import AnimationContainer from './AnimationContainer';
 
 import { getRandom, fetchComments } from '../utils/api';
 import ssBotList from '../utils/ssBotList';
@@ -40,6 +41,8 @@ class GameContainer extends React.Component {
       isWrongAnswer: false,
       isCongrats: false,
       playerName: '',
+      scoreAnimation: false,
+      lifeAnimation: false,
     };
 
     this.reloadComments = this.reloadComments.bind(this);
@@ -65,6 +68,8 @@ class GameContainer extends React.Component {
     isWrongAnswer: boolean,
     isCongrats: boolean,
     playerName: string,
+    scoreAnimation: boolean,
+    lifeAnimation: boolean,
   }
 
   componentDidMount() {
@@ -98,6 +103,8 @@ class GameContainer extends React.Component {
     this.setState({
       text: '',
       isLoading: true,
+      scoreAnimation: false,
+      lifeAnimation: false,
     });
 
     const isRobot = SS_TRACKER.includes(RANDOM_COMMENT.author);
@@ -105,12 +112,14 @@ class GameContainer extends React.Component {
     if ((isRobot && type === 'robot') || (!isRobot && type === 'human')) {
       this.setState({
         score: this.state.score + 1,
+        scoreAnimation: true,
       });
       this.handleUpdate();
     } else if ((isRobot && type === 'human') || (!isRobot && type === 'robot')) {
       this.setState({
         numLives: this.state.numLives - 1,
         isWrongAnswer: true,
+        lifeAnimation: true,
       });
 
       // Add precise comment permalinks
@@ -275,13 +284,18 @@ class GameContainer extends React.Component {
       </div>);
 
     return (
-      <div id="gameContainer">
+      <div className="gameContainer">
         <NavHeader
           gameOver={this.state.gameOver}
           score={this.state.score}
           subreddit={this.state.subredditName}
           numLives={this.state.numLives}
-        /> <br />
+        />
+        <AnimationContainer
+          scoreAnimation={this.state.scoreAnimation}
+          lifeAnimation={this.state.lifeAnimation}
+          isLoading={this.state.isLoading}
+        />
         {buttonCommentContainer}
       </div>
     );
