@@ -11,6 +11,7 @@ const commonBotList = [
   'DJ_Spam',
   'imguralbumbot',
   'LocationBot',
+  'hqtrackbot',
   //
 ];
 
