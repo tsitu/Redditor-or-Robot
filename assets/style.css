@@ -1,4 +1,4 @@
-#gameContainer {
+.gameContainer {
   text-align: center;
   font-size: 2vw;
   margin: 1em auto;
@@ -11,29 +11,46 @@
   padding: 20px;
 }
 
-#humanButton, #roboButton, #resetButton {
+.gameTitle {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 32px;
+  margin: 20px;
+}
+
+.gameButton__human, .gameButton__robo, .gameButton__reset {
   font-size: 36px;
   width: 10vw;
 }
 
-#playButton, #helpButton {
+.gameButton__play, .gameButton__help {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-size: 30px;
   width: 15vw;
   margin: 5px;
 }
 
-#dangerousHTML {
+.dangerousHTML {
   text-align: center;
 }
 
-#navTable {
+.navTable {
   width: 100%;
   table-layout: fixed;
 }
 
-#gameTitle {
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  font-size: 32px;
-  margin: 20px;
+.navTable__animation--score, .navTable__animation--life {
+  animation: fade-in 0.8s ease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }

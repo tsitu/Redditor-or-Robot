@@ -30,9 +30,9 @@ class LoginContainer extends React.Component {
 
   render() {
     return (
-      <div id="gameContainer">
+      <div className="gameContainer">
         <span role="img" aria-label="Human">🙋</span> -:- <span role="img" aria-label="Robot">💻</span> <br />
-        <p id="gameTitle">Redditor or Robot?</p>
+        <p className="gameTitle">Redditor or Robot?</p>
         <PlayButton onButtonClick={this.onPlayButtonClick} />
         <HelpButton onButtonClick={this.onHelpButtonClick} />
       </div>

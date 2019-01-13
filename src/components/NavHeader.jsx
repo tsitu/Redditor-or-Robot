@@ -29,7 +29,7 @@ class NavHeader extends React.PureComponent {
     }
     return (
       <div>
-        <table id="navTable">
+        <table className="navTable">
           <tbody>
             <tr>
               <td>Score: {this.props.score}</td>

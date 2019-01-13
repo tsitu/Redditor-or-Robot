@@ -21,7 +21,7 @@ class ResetButton extends React.Component {
 
   render() {
     return (
-      <button type="button" id="resetButton" onClick={this.handleClick}>
+      <button type="button" className="gameButton__reset" onClick={this.handleClick}>
         <span role="img" aria-label="Video Game">🎮</span>
       </button>
     );

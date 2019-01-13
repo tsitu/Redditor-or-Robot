@@ -21,7 +21,7 @@ class HumanButton extends React.Component {
 
   render() {
     return (
-      <button type="button" id="humanButton" onClick={this.handleClick}>
+      <button type="button" className="gameButton__human" onClick={this.handleClick}>
         <span role="img" aria-label="Human">🙋</span>
       </button>
     );

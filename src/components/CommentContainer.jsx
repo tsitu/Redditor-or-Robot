@@ -16,7 +16,7 @@ class CommentContainer extends React.PureComponent {
     const wrongAnswer = this.props.isWrongAnswer ? <div> <br /> Whoops! Moving on... </div> : '';
     const commentBody = this.props.isLoading ?
       <div> <br /> <LoadingSpinner /> </div> :
-      <div id="dangerousHTML" dangerouslySetInnerHTML={{ __html: this.props.text }} />;
+      <div className="dangerousHTML" dangerouslySetInnerHTML={{ __html: this.props.text }} />;
     return (
       <div>
         {goodJob}

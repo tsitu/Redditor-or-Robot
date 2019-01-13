@@ -21,7 +21,7 @@ class HelpButton extends React.Component {
 
   render() {
     return (
-      <button type="button" id="helpButton" onClick={this.handleClick}>Help</button>
+      <button type="button" className="gameButton__help" onClick={this.handleClick}>Help</button>
     );
   }
 }
